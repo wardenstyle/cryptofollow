@@ -91,7 +91,7 @@
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="h-100">
                         <h1 class="display-6">Une mission, Un objectif</h1>
-                        <p class="text-primary fs-5 mb-4">Vous aidez avant la prise de décision</p>
+                        <p class="text-primary fs-5 mb-4">Vous aidez à comprendre le marché</p>
                         <p>CryptoFollow vous propose de suivre l'évolution de votre crypto-monnaie à l'aide d'indicateur. </p>
                         <p>3 fonctionnalités:</p>
                         <div class="d-flex align-items-center mb-2">

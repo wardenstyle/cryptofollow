@@ -15,7 +15,8 @@ try {
         $config['rabbitmq']['host'],
         $config['rabbitmq']['port'],
         $config['rabbitmq']['user'],
-        $config['rabbitmq']['pass']
+        $config['rabbitmq']['pass'],
+    //    $config['rabbitmq']['vhost'], // pour la prod
     );
     $channel = $connection->channel();
     $channel->queue_declare($config['rabbitmq']['queue'], false, true, false, false);

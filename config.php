@@ -6,7 +6,8 @@ return [
         'host' => 'localhost',
         'dbname' => 'crypto_db',
         'user' => 'root',
-        'pass' => ''
+        'pass' => '',
+    //    'vhost'=>'cryptofollow_mq', pour la prod
     ],
     'rabbitmq' => [
         'host' => 'localhost',

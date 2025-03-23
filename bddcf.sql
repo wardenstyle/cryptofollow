@@ -1,0 +1,6 @@
+CREATE TABLE indicators (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    crypto VARCHAR(50) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    date DATETIME NOT NULL
+);
