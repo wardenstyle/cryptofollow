@@ -5,37 +5,57 @@ require 'vendor/autoload.php';
 require 'config.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 $config = include 'config.php';
 
-// création du consommateur
-try {
-    // Connexion à RabbitMQ
-    $connection = new AMQPStreamConnection(
-        $config['rabbitmq']['host'],
-        $config['rabbitmq']['port'],
-        $config['rabbitmq']['user'],
-        $config['rabbitmq']['pass'],
-    //    $config['rabbitmq']['vhost'], // pour la prod
-    );
-    $channel = $connection->channel();
-    $channel->queue_declare($config['rabbitmq']['queue'], false, true, false, false);
+function connectRabbitMQ($config) {
+    try {
+        $connection = new AMQPStreamConnection(
+            $config['rabbitmq']['host'],
+            $config['rabbitmq']['port'],
+            $config['rabbitmq']['user'],
+            $config['rabbitmq']['pass'],
+            //$config['rabbitmq']['vhost'], => config pour la prod
+        );
+        $channel = $connection->channel();
+        $channel->queue_declare($config['rabbitmq']['queue'], false, true, false, false);
 
-    // Connexion à MySQL
+        return [$connection, $channel];
+    } catch (Exception $e) {
+        echo "Erreur de connexion à RabbitMQ: " . $e->getMessage() . "\n";
+        return [null, null];
+    }
+}
 
-    $pdo = new PDO("mysql:host={$config['db']['host']};dbname={$config['db']['dbname']}", $config['db']['user'], $config['db']['pass'],
-    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+function connectDatabase($config) {
+    try {
+        return new PDO(
+            "mysql:host={$config['db']['host']};dbname={$config['db']['dbname']}",
+            $config['db']['user'],
+            $config['db']['pass'],
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+        );
+    } catch (Exception $e) {
+        echo "Erreur de connexion à la base de données: " . $e->getMessage() . "\n";
+        return null;
+    }
+}
 
-    );
+[$connection, $channel] = connectRabbitMQ($config);
+$pdo = connectDatabase($config);
 
-    // si l'application est fermée, les indicateurs seront enregistrés en queue et en base à la prochaine ouverture
+if (!$connection || !$channel || !$pdo) {
+    exit("Impossible de démarrer le consommateur.\n");
+}
 
-    echo "En attente des messages...\n";
+echo "En attente des messages...\n";
 
-    $callback = function ($msg) use ($pdo) {
-        $indicator = json_decode($msg->body, true);
+$callback = function (AMQPMessage $msg) use ($pdo, $channel) {
+    $indicator = json_decode($msg->body, true);
 
-        if (isset($indicator['crypto'], $indicator['price'], $indicator['date'])) {
+    if (isset($indicator['crypto'], $indicator['price'], $indicator['date'])) {
+        try {
             $stmt = $pdo->prepare("INSERT INTO indicators (crypto, price, date) VALUES (:crypto, :price, :date)");
             $stmt->execute([
                 'crypto' => $indicator['crypto'],
@@ -44,19 +64,27 @@ try {
             ]);
 
             echo "Indicateur enregistré: " . json_encode($indicator) . "\n";
-        } else {
-            echo "Message invalide reçu.\n";
+            $msg->ack(); // Accuser réception du message
+
+        } catch (Exception $e) {
+            echo "Erreur lors de l'insertion en base: " . $e->getMessage() . "\n";
         }
-    };
-
-    $channel->basic_consume($config['rabbitmq']['queue'], '', false, true, false, false, $callback);
-
-    while ($channel->is_consuming()) {
-        $channel->wait();
+    } else {
+        echo "Message invalide reçu.\n";
+        $msg->reject(false); // Rejeter le message sans le remettre en file d'attente
     }
+};
 
-    $channel->close();
-    $connection->close();
-} catch (Exception $e) {
-    echo "Erreur: " . $e->getMessage() . "\n";
+$channel->basic_consume($config['rabbitmq']['queue'], '', false, false, false, false, $callback);
+
+while ($channel->is_consuming()) {
+    try {
+        $channel->wait();
+    } catch (Exception $e) {
+        echo "Erreur pendant la consommation: " . $e->getMessage() . "\n";
+        sleep(5); // Pause avant une nouvelle tentative
+    }
 }
+
+$channel->close();
+$connection->close();
