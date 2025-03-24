@@ -1,76 +1,55 @@
+
 Array
 (
-    [crypto] => bitcoin
-    [price] => 87927
-)
-Array
-(
-    [crypto] => theta-token
-    [price] => 0.973448
+    [crypto] => quant-network
+    [price] => 78.7
+    [date] => 2025-12-12 00:00:00
 )
 Array
 (
     [crypto] => injective-protocol
-    [price] => 10.6
+    [price] => 10.53
+    [date] => 2025-12-12 00:00:00
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 88283
     [date] => 2025-12-12 00:00:00
 )
 Array
 (
     [crypto] => quant-network
-    [price] => 78.95
+    [price] => 78.67
+    [date] => 2025-12-12 00:00:00
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 88506
+    [date] => 2025-12-12 00:00:00
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 88516
     [date] => 2025-12-12 00:00:00
 )
 Array
 (
     [crypto] => theta-token
-    [price] => 0.977177
-    [date] => 2025-12-12 00:00:00
+    [price] => 0.981874
+    [date] => 2025-03-24 19:58:19
 )
 Array
 (
-    [crypto] => injective-protocol
-    [price] => 10.59
-    [date] => 2025-12-12 00:00:00
+    [crypto] => quant-network
+    [price] => 78.9
+    [date] => 2025-03-24 20:00:54
 )
 Array
 (
-    [crypto] => bitcoin
-    [price] => 88099
-    [date] => 2025-12-12 00:00:00
-)
-Array
-(
-    [crypto] => bitcoin
-    [price] => 88166
-    [date] => 2025-12-12 00:00:00
-)
-Array
-(
-    [crypto] => bitcoin
-    [price] => 88306
-    [date] => 2025-12-12 00:00:00
-)
-Array
-(
-    [crypto] => bitcoin
-    [price] => 88306
-    [date] => 2025-12-12 00:00:00
-)
-Array
-(
-    [crypto] => bitcoin
-    [price] => 88407
-    [date] => 2025-12-12 00:00:00
-)
-Array
-(
-    [crypto] => bitcoin
-    [price] => 88354
-    [date] => 2025-12-12 00:00:00
-)
-Array
-(
-    [crypto] => bitcoin
-    [price] => 88354
-    [date] => 2025-12-12 00:00:00
+    [crypto] => quant-network
+    [price] => -
+    [date] => 2025-03-24 20:01:41
 )

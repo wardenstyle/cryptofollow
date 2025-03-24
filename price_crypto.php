@@ -50,17 +50,17 @@
                     <div class="d-flex gap-2">
                         <div class="flex-fill">
                             <label for="crypto" class="form-label">Crypto</label>
-                            <input type="text" class="form-control" id="crypto" readonly>
+                            <input type="text" name="crypto" class="form-control" id="crypto" readonly>
                         </div>
                         <div class="flex-fill">
                             <label for="prix" class="form-label">Prix</label>
-                            <input type="text" class="form-control" id="price" required>
+                            <input type="text" name="price" class="form-control" id="price" required>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="date" class="form-label">Date</label>
-                        <input type="text" class="form-control" name="date" id="date" value="2025-12-12 00:00:00" required> 
+                        <input type="text" class="form-control" name="date" id="date" required> 
                     </div>
 
                     <div class="d-flex gap-2">
@@ -96,13 +96,14 @@
     document.getElementById('fillButton').addEventListener('click', function() {
         let selectedCrypto = document.getElementById('cryptoSelect').value;
         let cryptoPrice = document.getElementById('cryptoPrice').textContent;
+        let date = document.getElementById('date').value;
 
         // Remplir le nom de la crypto et son prix
         document.getElementById('crypto').value = selectedCrypto;
         document.getElementById('price').value = cryptoPrice;
-
+        //document.getElementById('date').value = date;
         // Obtenir la date et l'heure actuelles
-//        let now = new Date();
+        let now = new Date();
 
         // Format d'affichage pour le formulaire (JJ/MM/AAAA HH:MM)
         // let formattedDateDisplay = now.toLocaleString('fr-FR', {
@@ -112,17 +113,17 @@
 
         // Traitement de date:  Format SQL DATETIME (AAAA-MM-JJ HH:MM:SS)
 
-        // let formattedDateSQL = now.getFullYear() + "-" +
-        //     String(now.getMonth() + 1).padStart(2, '0') + "-" +
-        //     String(now.getDate()).padStart(2, '0') + " " +
-        //     String(now.getHours()).padStart(2, '0') + ":" +
-        //     String(now.getMinutes()).padStart(2, '0') + ":" +
-        //     String(now.getSeconds()).padStart(2, '0');
+        let formattedDateSQL = now.getFullYear() + "-" +
+            String(now.getMonth() + 1).padStart(2, '0') + "-" +
+            String(now.getDate()).padStart(2, '0') + " " +
+            String(now.getHours()).padStart(2, '0') + ":" +
+            String(now.getMinutes()).padStart(2, '0') + ":" +
+            String(now.getSeconds()).padStart(2, '0');
 
         // Insérer la date affichée dans le champ texte
-        //document.getElementById('date_display').value = formattedDateDisplay;
+    //    document.getElementById('date').value = formattedDateDisplay;
         // Insérer la date SQL cachée pour l'envoi au serveur
-        //document.getElementById('date').value = formattedDateSQL;
+        document.getElementById('date').value = formattedDateSQL;
     });
 
 </script>
@@ -146,22 +147,23 @@
             method: "POST",
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Réponse du serveur :", data);
-            if (data.success) {
-                alert("Marqueur envoyé avec succès à RabbitMQ !",data);
-            } else {
-                alert("Erreur : " + data.error);
-            }
+        .then(response => response.text())
+        .then(text => {
+        console.log("Réponse brute du serveur :", text); // Affiche la réponse exacte reçue
+        let data = JSON.parse(text);
+        if (data.success) {
+            alert("Marqueur envoyé avec succès !");
+        } else {
+            alert("Erreur : " + data.error);
+        }
         })
         .catch(error => {
-            console.error("Erreur lors de l'envoi :", error);
-            alert("Une erreur est survenue.");
+        console.error("Erreur lors de l'envoi :", error);
+        alert("Une erreur est survenue.");
         });
     });
 
-console.log(document.getElementById('crypto')); // Doit afficher l'élément ou 'null'
+console.log(document.getElementById('crypto'));
 console.log(document.getElementById('price'));
 console.log(document.getElementById('date'));
 </script>

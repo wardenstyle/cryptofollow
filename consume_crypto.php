@@ -15,8 +15,7 @@ function connectRabbitMQ($config) {
             $config['rabbitmq']['host'],
             $config['rabbitmq']['port'],
             $config['rabbitmq']['user'],
-            $config['rabbitmq']['pass'],
-            //$config['rabbitmq']['vhost'], => config pour la prod
+            $config['rabbitmq']['pass']
         );
         $channel = $connection->channel();
         $channel->queue_declare($config['rabbitmq']['queue'], false, true, false, false);
@@ -51,7 +50,7 @@ if (!$connection || !$channel || !$pdo) {
 
 echo "En attente des messages...\n";
 
-$callback = function (AMQPMessage $msg) use ($pdo, $channel) {
+$callback = function (AMQPMessage $msg) use ($pdo) {
     $indicator = json_decode($msg->body, true);
 
     if (isset($indicator['crypto'], $indicator['price'], $indicator['date'])) {
@@ -75,6 +74,8 @@ $callback = function (AMQPMessage $msg) use ($pdo, $channel) {
     }
 };
 
+// Mode "fair dispatch" pour éviter de traiter plusieurs messages à la fois si le serveur est lent
+$channel->basic_qos(null, 1, null);
 $channel->basic_consume($config['rabbitmq']['queue'], '', false, false, false, false, $callback);
 
 while ($channel->is_consuming()) {
@@ -82,7 +83,7 @@ while ($channel->is_consuming()) {
         $channel->wait();
     } catch (Exception $e) {
         echo "Erreur pendant la consommation: " . $e->getMessage() . "\n";
-        sleep(5); // Pause avant une nouvelle tentative
+        sleep(5);
     }
 }
 
