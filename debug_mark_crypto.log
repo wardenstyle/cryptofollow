@@ -53,3 +53,21 @@ Array
     [price] => -
     [date] => 2025-03-24 20:01:41
 )
+Array
+(
+    [crypto] => bitcoin
+    [price] => -
+    [date] => 2025-03-24 20:04:48
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 
+    [date] => 2025-03-24 20:04:48
+)
+Array
+(
+    [crypto] => quant-network
+    [price] => 78.76
+    [date] => 2025-03-24 20:05:54
+)
