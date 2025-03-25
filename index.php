@@ -50,7 +50,7 @@
                             <i class="fa fa-check bg-light text-primary btn-sm-square rounded-circle me-3 fw-bold"></i>
                             <span>Obtenir des statistiques précises sur l'évolution de votre crypto-monnaies</span>
                         </div>
-                        <a class="btn btn-primary py-3 px-4" href="">c'est parti !</a>
+                        <a class="btn btn-primary py-3 px-4" href="price_crypto.php">c'est parti !</a>
                     </div>
                 </div>
             </div>

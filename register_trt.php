@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('config.php'); // Assure-toi que config.php contient la connexion à la BDD
+$config = include('config.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['email']) && isset($_POST['password'])) {
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         try {
-            $pdo = new PDO("mysql:host=localhost;dbname=crypto_db;charset=utf8", 'root', '', [
+            $pdo = new PDO("mysql:host={$config['db']['host']};dbname={$config['db']['dbname']};charset=utf8", $config['db']['user'], $config['db']['pass'], [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ]);
 

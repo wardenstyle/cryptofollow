@@ -23,7 +23,7 @@ if (session_status() === PHP_SESSION_NONE) {
             else {?>
                 <a href="log-in.php" class="nav-item nav-link">Connectez-vous</a>
             <?php }?>
-                <a href="about.html" class="nav-item nav-link">à propos de nous</a>
+                <a href="#" class="nav-item nav-link">à propos de nous</a>
             </div>
             <div class="h-100 d-lg-inline-flex align-items-center d-none">
                 <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-facebook-f"></i></a>
