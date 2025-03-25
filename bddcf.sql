@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `indicators` (
   `crypto` varchar(50) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `date` datetime NOT NULL,
-  `id_u` int DEFAULT NULL,
+  `id_u` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_u` (`id_u`)
 ) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

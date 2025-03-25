@@ -94,3 +94,73 @@ Array
     [price] => 88056
     [date] => 2025-03-25 16:06:39
 )
+Array
+(
+    [crypto] => bitcoin
+    [price] => 87906
+    [date] => 2025-03-25 16:42:28
+    [id_u] => 1
+)
+Array
+(
+    [crypto] => theta-token
+    [price] => 0.976915
+    [date] => 2025-03-25 16:50:09
+    [id_u] => 1
+)
+Array
+(
+    [crypto] => injective-protocol
+    [price] => 10.63
+    [date] => 2025-03-25 16:52:59
+    [id_u] => 1
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 87762
+    [date] => 2025-03-25 16:55:31
+    [id_u] => 1
+)
+Array
+(
+    [crypto] => theta-token
+    [price] => 0.973413
+    [date] => 2025-03-25 16:58:00
+    [id_u] => 1
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 87769
+    [date] => 2025-03-25 17:00:16
+    [id_u] => 1
+)
+Array
+(
+    [crypto] => quant-network
+    [price] => 78.25
+    [date] => 2025-03-25 17:13:02
+    [id_u] => 1
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 88025
+    [date] => 2025-03-25 17:13:18
+    [id_u] => 1
+)
+Array
+(
+    [crypto] => theta-token
+    [price] => 0.981169
+    [date] => 2025-03-25 17:13:57
+    [id_u] => 1
+)
+Array
+(
+    [crypto] => injective-protocol
+    [price] => 10.65
+    [date] => 2025-03-25 17:15:21
+    [id_u] => 1
+)

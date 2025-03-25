@@ -18,7 +18,7 @@ if (!isset($config) || !is_array($config)) {
 }
 
 // Vérifier que les données POST sont présentes
-if (!isset($_POST['crypto'], $_POST['price'], $_POST['date'])) {
+if (!isset($_POST['crypto'], $_POST['price'], $_POST['date'],$_POST['id_u'])) {
     echo json_encode(["success" => false, "error" => "Données manquantes"]);
     exit;
 }
@@ -27,14 +27,15 @@ if (!isset($_POST['crypto'], $_POST['price'], $_POST['date'])) {
 $crypto = htmlspecialchars($_POST['crypto']);
 $price = floatval($_POST['price']);
 $date = $_POST['date']; // Format attendu : YYYY-MM-DD HH:MM:SS
-
+$user = $_POST['id_u'];
 // Debug : enregistrer les marqueurs dans un fichier log
 file_put_contents('debug_mark_crypto.log', print_r($_POST, true), FILE_APPEND);
 
 $marker = [
     'crypto' => $crypto,
     'price' => $price,
-    'date' => $date
+    'date' => $date,
+    'id_u' => $user
 ];
 
 try {

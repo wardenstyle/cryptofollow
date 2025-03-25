@@ -72,6 +72,8 @@ include('nav.php');
                         <input type="text" class="form-control" name="date" id="date" required> 
                     </div>
 
+                    <input type="hidden" id="id_u" value="<?php echo $_SESSION['id_u']; ?>">
+
                     <div class="d-flex gap-2">
                         <button class="btn btn-success flex-fill" id="fillButton" type="button">Remplir</button>
                         <button class="btn btn-primary flex-fill" id="markButton" type="button">Marquer</button>
@@ -147,18 +149,8 @@ include('nav.php');
         // Remplir le nom de la crypto et son prix
         document.getElementById('crypto').value = selectedCrypto;
         document.getElementById('price').value = cryptoPrice;
-        //document.getElementById('date').value = date;
-        // Obtenir la date et l'heure actuelles
+
         let now = new Date();
-
-        // Format d'affichage pour le formulaire (JJ/MM/AAAA HH:MM)
-        // let formattedDateDisplay = now.toLocaleString('fr-FR', {
-        //     day: '2-digit', month: '2-digit', year: 'numeric',
-        //     hour: '2-digit', minute: '2-digit'
-        // });
-
-        // Traitement de date:  Format SQL DATETIME (AAAA-MM-JJ HH:MM:SS)
-
         let formattedDateSQL = now.getFullYear() + "-" +
             String(now.getMonth() + 1).padStart(2, '0') + "-" +
             String(now.getDate()).padStart(2, '0') + " " +
@@ -167,8 +159,7 @@ include('nav.php');
             String(now.getSeconds()).padStart(2, '0');
 
         // Insérer la date affichée dans le champ texte
-    //    document.getElementById('date').value = formattedDateDisplay;
-        // Insérer la date SQL cachée pour l'envoi au serveur
+
         document.getElementById('date').value = formattedDateSQL;
     });
 
@@ -179,12 +170,14 @@ include('nav.php');
         let crypto = document.getElementById('crypto').value;
         let price = document.getElementById('price').value;
         let date = document.getElementById('date').value;
+        let user = document.getElementById('id_u').value;
 
         // Préparation des données pour l'envoi
         let formData = new FormData();
         formData.append("crypto", crypto);
         formData.append("price", price);
         formData.append("date", date);
+        formData.append("id_u", user)
 
         // Envoi des données à mark_crypto.php
         fetch("mark_crypto.php", {
@@ -210,6 +203,7 @@ include('nav.php');
         console.log(document.getElementById('crypto'));
         console.log(document.getElementById('price'));
         console.log(document.getElementById('date'));
+        console.log(document.getElementById('id_u'));
 } else {
     console.log("L'utilisateur n'est pas connecté. Le script d'indicateur ne peut pas être exécuté.");
 }
