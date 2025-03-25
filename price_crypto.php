@@ -1,5 +1,14 @@
-<?php include('head.php'); ?>
-<?php include('nav.php'); ?>
+<?php 
+
+session_start();
+//session_destroy();var_dump($_SESSION);//echo password_hash("bonjour", PASSWORD_DEFAULT);
+include('head.php'); 
+include('nav.php'); 
+?>
+<script>
+    var isLoggedIn = <?php echo isset($_SESSION["id_u"]) ? "true" : "false"; ?>;
+</script>
+
 <body>
 
 <div class="container-fluid hero-header bg-light py-5 mb-5">
@@ -24,9 +33,9 @@
                 <h3 class="mt-3">Prix actuel : <span id="cryptoPrice">-</span> USD</h3>
             </div>
 
-            <?php// if(isset($_SESSION)) { ?>
+            <?php if(!isset($_SESSION['id_u'])) { ?>
             <!-- Bloc 2 : Formulaire de Connexion -->
-            <!-- <div class="col-lg-6 col-12">
+            <div class="col-lg-6 col-12">
                 <h4>Connectez-vous pour poser un indicateur</h4>
                 <form id="loginForm">
                     <div class="mb-3">
@@ -39,9 +48,9 @@
                     </div>
                     <button class="btn btn-success w-100" type="submit">Se connecter</button>
                 </form>
-            </div> -->
+            </div>
 
-            <?php// } else { ?>
+            <?php } else { ?>
             <!-- Bloc 3 : Formulaire d'Indicateur -->
             <div class="col-lg-6 col-12">
                 <h2><img class="" src="img/b.png" alt="">Etape 2</h2>
@@ -69,12 +78,49 @@
                     </div>
                 </form>
             </div>
-            <?php// } ?>
+            <?php } ?>
         </div>
     </div>
 </div>
 
-<script> // action sur les formulaires
+<script> 
+    //Gestion de la connexion
+    document.getElementById('loginForm')?.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        let email = document.getElementById('email').value;
+        let password = document.getElementById('password').value;
+
+        // Préparation des données pour l'envoi
+        let formData = new FormData();
+        formData.append("email", email);
+        formData.append("password", password);
+
+        // Envoi des données à login.php
+        fetch("login.php", {
+            method: "POST",
+            body: formData
+        //    body: JSON.stringify({ email, password })
+        })
+        .then(response => response.text())
+        .then(text => {
+        console.log("Réponse brute du serveur :", text); // Affiche la réponse exacte reçue
+        let data = JSON.parse(text);
+        if (data.success) {
+            //alert("Connexion réussi !");
+            location.reload();
+        } else {
+            alert("Erreur : " + data.error);
+        }
+        })
+        .catch(error => {
+        console.error("Erreur lors de l'envoi :", formData);
+        alert("Une erreur est survenue.");
+        });
+
+    });
+    // action sur les formulaires
+    if (isLoggedIn) {
     document.getElementById('cryptoForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Empêche le rechargement de la page
 
@@ -126,9 +172,7 @@
         document.getElementById('date').value = formattedDateSQL;
     });
 
-</script>
 
-<script>
     document.getElementById('markButton').addEventListener('click', function(event) {
         event.preventDefault(); // Empêche le rechargement de la page
         console.log("Le bouton Marquer a été cliqué !");
@@ -163,9 +207,12 @@
         });
     });
 
-console.log(document.getElementById('crypto'));
-console.log(document.getElementById('price'));
-console.log(document.getElementById('date'));
+        console.log(document.getElementById('crypto'));
+        console.log(document.getElementById('price'));
+        console.log(document.getElementById('date'));
+} else {
+    console.log("L'utilisateur n'est pas connecté. Le script d'indicateur ne peut pas être exécuté.");
+}
 </script>
 
 </body>

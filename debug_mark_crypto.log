@@ -70,4 +70,27 @@ Array
     [crypto] => quant-network
     [price] => 78.76
     [date] => 2025-03-24 20:05:54
+)Array
+(
+    [crypto] => theta-token
+    [price] => 0.971532
+    [date] => 2025-03-25 11:26:34
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => -
+    [date] => 2025-03-25 13:54:10
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 87132
+    [date] => 2025-03-25 14:03:10
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 88056
+    [date] => 2025-03-25 16:06:39
 )

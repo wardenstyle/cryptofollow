@@ -1,13 +1,17 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 
+include('head.php'); 
+//include('nav.php'); 
+
+if (isset($_SESSION['id_u'])) {
+
+    header("Location: index.php");
+    exit(); // Arret du script après la redirection
+
+}else{
 ?>
-<div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-grow text-primary" role="status"></div>
-</div>
 
 <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 px-4 px-lg-5">
         <a href="index.php" class="navbar-brand d-flex align-items-center">
@@ -19,10 +23,6 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-4 py-lg-0">
                 <a href="index.php" class="nav-item nav-link active">Home</a>
-            <?php if(isset($_SESSION['id_u'])) { ?><a href="logout.php" class="nav-item nav-link">Déconnexion</a> <?php } 
-            else {?>
-                <a href="log-in.php" class="nav-item nav-link">Connectez-vous</a>
-            <?php }?>
                 <a href="about.html" class="nav-item nav-link">à propos de nous</a>
             </div>
             <div class="h-100 d-lg-inline-flex align-items-center d-none">
@@ -32,3 +32,29 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
         </div>
 </nav>
+
+<div class="d-flex justify-content-center align-items-center vh-100 position-relative" style="top:-150px;">
+    <div class="col-lg-6 col-md-8 col-sm-10 col-12">
+        <h4 class="text-center">
+            <img src="img/hero-2.png" width="25%" alt=""> Connectez-vous/<a href="register.php">s'inscrire</a>
+        </h4>
+        <form id="loginForm" class="p-4 border rounded shadow bg-white">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+            <button class="btn btn-primary w-100" type="submit">Se connecter</button>
+        </form>
+    </div>
+</div>
+<?php 
+}
+?>
+
+<script src="js/connexion.js"></script>
+
+
