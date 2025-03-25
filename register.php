@@ -36,7 +36,7 @@ if (isset($_SESSION['id_u'])) {
 <div class="d-flex justify-content-center align-items-center vh-100 position-relative" style="top:-150px;">
     <div class="col-lg-6 col-md-8 col-sm-10 col-12">
         <h4 class="text-center">
-            <img src="img/hero-2.png" width="25%" alt=""> S'inscrire/<a href="log-in.php">Connectez-vous</a>
+            <img src="img/hero-2.png" width="25%" alt=""> S'inscrire |<a href="log-in.php"> Se connecter</a>
         </h4>
         <form id="registerForm" class="p-4 border rounded shadow bg-white">
             <div class="mb-3">

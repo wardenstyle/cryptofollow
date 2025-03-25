@@ -21,7 +21,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <a href="index.php" class="nav-item nav-link active">Home</a>
             <?php if(isset($_SESSION['id_u'])) { ?><a href="logout.php" class="nav-item nav-link">Déconnexion</a> <?php } 
             else {?>
-                <a href="log-in.php" class="nav-item nav-link">Connectez-vous</a>
+                <a href="log-in.php" class="nav-item nav-link">Se connecter / s'inscrire</a>
             <?php }?>
                 <a href="#" class="nav-item nav-link">à propos de nous</a>
             </div>
