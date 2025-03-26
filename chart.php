@@ -32,12 +32,14 @@ try {
             }
         }
     }
+    //var_dump($cryptoHistory);
 
     // Transformation des données en JSON pour le graphique
     $chartData = [
         'indicators' => $indicators,
         'history' => $cryptoHistory
     ];
+//    var_dump($chartData);
 } catch (Exception $e) {
     die("Erreur: " . $e->getMessage());
 }

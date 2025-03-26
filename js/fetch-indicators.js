@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let myChart = null;
     let isChartDisplayed = false; // Pour basculer entre le tableau et le graphique
 
-    // Fonction pour charger les indicateurs sous forme de tableau
+    // 🔹 Fonction pour charger les indicateurs sous forme de tableau
     function loadIndicators(crypto) {
         fetch(`fetch_indicators.php?crypto=${encodeURIComponent(crypto)}`)
             .then(response => response.json())
@@ -53,26 +53,49 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    // Fonction pour charger et afficher le graphique Chart.js
+    // 🔹 Fonction pour charger et afficher le graphique Chart.js
     function loadChart(crypto) {
         fetch(`https://api.coingecko.com/api/v3/coins/${crypto}/market_chart?vs_currency=usd&days=30`)
             .then(response => response.json())
             .then(data => {
-                const labels = data.prices.map(entry => new Date(entry[0]).toISOString().split("T")[0]);
-                const prices = data.prices.map(entry => entry[1]);
+                
+                const labels = data.prices.map(entry => new Date(entry[0])); // Utilise un tableau d'objets Date
+                const prices = data.prices.map(entry => entry[1]);  // Tous les prix
 
-                console.log("Dates API CoinGecko:", labels);
+                let datasets = []; // Nous allons y ajouter les datasets
+
+                // Ajoute les prix historiques dans le dataset
+                datasets.push({
+                    label: "Prix Historique",
+                    data: prices.map((price, index) => ({ x: labels[index], y: price })),
+                    borderColor: "blue",
+                    fill: false,
+                    tension: 0.4, // Pour lisser la courbe
+                    pointRadius: 0 // Pas de point sur la ligne
+                });
 
                 // Récupération des marqueurs enregistrés
                 fetch(`fetch_indicators.php?crypto=${crypto}`)
                     .then(response => response.json())
                     .then(markerData => {
-                        const markerPoints = markerData.data.map(m => ({
-                            x: new Date(m.date), // Positionne le marqueur à la bonne date
-                            y: m.price            // Valeur correspondante
-                        }));
+                        const markerDates = markerData.data.map(m => new Date(m.date));
+                        const markerPrices = markerData.data.map(m => m.price);
 
-                        console.log("Marqueurs enregistrés:", markerPoints);
+                        // Ajoute les marqueurs dans le dataset
+                        datasets.push({
+                            label: "Marqueurs",
+                            data: markerPrices.map((price, index) => ({
+                                x: markerDates[index],
+                                y: price
+                            })),
+                            borderColor: "red",
+                            backgroundColor: "red",
+                            pointBackgroundColor: "red",
+                            pointRadius: 6, // Taille des points rouges
+                            pointBorderColor: "black",
+                            pointHoverRadius: 8,
+                            type: "scatter" // Type de graphique pour les marqueurs
+                        });
 
                         // Détruit l'ancien graphique s'il existe
                         if (myChart) {
@@ -83,64 +106,24 @@ document.addEventListener("DOMContentLoaded", function () {
                         const ctx = cryptoChartCanvas.getContext("2d");
                         myChart = new Chart(ctx, {
                             type: "line",
-                            data: {
-                                labels: labels,
-                                datasets: [
-                                    {
-                                        label: "Prix Historique",
-                                        data: prices,
-                                        borderColor: "blue",
-                                        fill: true,
-                                        backgroundColor: "rgba(0, 0, 255, 0.2)",
-                                        tension: 0.4
-                                    },
-                                    {
-                                        label: "Marqueurs",
-                                        data: markerPoints,
-                                        borderColor: "red",
-                                        pointBackgroundColor: "red",
-                                        pointBorderColor: "black",
-                                        pointRadius: 6,
-                                        pointHoverRadius: 8,
-                                        type: "scatter"
-                                    }
-                                ]
-                            },
+                            data: { datasets },
                             options: {
                                 responsive: true,
-                                maintainAspectRatio: false,
                                 scales: {
                                     x: {
-                                        type: "time",
+                                        type: 'time',
                                         time: {
-                                            unit: "day",
-                                            tooltipFormat: "YYYY-MM-DD"
-                                        },
-                                        ticks: {
-                                            maxRotation: 45,
-                                            autoSkip: true
-                                        },
-                                        grid: {
-                                            display: false // <-- Cache la grille verticale pour plus de lisibilité
+                                            unit: 'day',
+                                            tooltipFormat: 'YYYY-MM-DD' // Format de la date dans l'info-bulle
                                         }
                                     },
                                     y: {
-                                        beginAtZero: false,
-                                        ticks: {
-                                            callback: value => "$" + value.toFixed(2) // <-- Formate les prix en dollars
-                                        },
-                                        grid: {
-                                            color: "rgba(200, 200, 200, 0.3)" // <-- Adoucit la grille horizontale
-                                        }
+                                        beginAtZero: false
                                     }
                                 },
                                 plugins: {
                                     legend: {
-                                        labels: {
-                                            font: {
-                                                size: 14
-                                            }
-                                        }
+                                        position: 'top'
                                     },
                                     tooltip: {
                                         backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -155,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Erreur lors du chargement du graphique:", error));
     }
 
-    // Bascule entre tableau et graphique au clic sur le bouton
+    // 🔹 Bascule entre tableau et graphique au clic sur le bouton
     displayButton.addEventListener("click", function (event) {
         event.preventDefault(); // Empêche le rechargement de la page
 
@@ -173,10 +156,10 @@ document.addEventListener("DOMContentLoaded", function () {
         isChartDisplayed = !isChartDisplayed;
     });
 
-    // Charger les indicateurs au démarrage
+    // 🔹 Charger les indicateurs au démarrage
     loadIndicators(cryptoSelect.value);
 
-    // Recharger les indicateurs lors du changement de crypto
+    // 🔹 Recharger les indicateurs lors du changement de crypto
     cryptoSelect.addEventListener("change", function () {
         loadIndicators(this.value);
     });
