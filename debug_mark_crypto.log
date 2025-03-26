@@ -28,3 +28,11 @@ Array
     [id_u] => 1
     [qte] => 
 )
+Array
+(
+    [crypto] => theta-token
+    [price] => 1.002
+    [date] => 2025-03-26 15:53:19
+    [id_u] => 1
+    [qte] => 12
+)
