@@ -23,7 +23,7 @@ if (isset($_SESSION['id_u'])) {
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-4 py-lg-0">
                 <a href="index.php" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">à propos de nous</a>
+                <a href="#" class="nav-item nav-link">à propos de nous</a>
             </div>
             <div class="h-100 d-lg-inline-flex align-items-center d-none">
                 <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-facebook-f"></i></a>
