@@ -22,6 +22,7 @@
             let selectedCrypto = document.getElementById('cryptoSelect').value;
             let cryptoPrice = document.getElementById('cryptoPrice').textContent;
             let date = document.getElementById('date').value;
+            //let qte = document.getElementById('qte').value;
     
             // Remplir le nom de la crypto et son prix
             document.getElementById('crypto').value = selectedCrypto;
@@ -48,13 +49,15 @@
             let price = document.getElementById('price').value;
             let date = document.getElementById('date').value;
             let user = document.getElementById('id_u').value;
+            let qte = document.getElementById('qte').value;
     
             // Préparation des données pour l'envoi
             let formData = new FormData();
             formData.append("crypto", crypto);
             formData.append("price", price);
             formData.append("date", date);
-            formData.append("id_u", user)
+            formData.append("id_u", user);
+            formData.append("qte", qte);
     
             // Envoi des données à mark_crypto.php
             fetch("mark_crypto.php", {
@@ -81,6 +84,7 @@
             console.log(document.getElementById('price'));
             console.log(document.getElementById('date'));
             console.log(document.getElementById('id_u'));
+            console.log(document.getElementById('qte'));
     } else {
         console.log("L'utilisateur n'est pas connecté. Le script d'indicateur ne peut pas être exécuté.");
     }

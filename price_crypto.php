@@ -68,6 +68,11 @@ include('nav.php');
                             <label for="prix" class="form-label">Prix</label>
                             <input type="text" name="price" class="form-control" id="price" required>
                         </div>
+
+                        <div class="flex-fill">
+                            <label for="qte" class="form-label">Quantité</label>
+                            <input type="text" name="qte" class="form-control" name="qte" id="qte">
+                        </div>
                     </div>
 
                     <div class="mb-3">

@@ -1,125 +1,6 @@
 Array
 (
     [crypto] => theta-token
-    [price] => 0.981169
-    [date] => 2025-03-25 17:13:57
-    [id_u] => 1
-)
-Array
-(
-    [crypto] => injective-protocol
-    [price] => 10.65
-    [date] => 2025-03-25 17:15:21
-    [id_u] => 1
-)
-Array
-(
-    [crypto] => theta-token
-    [price] => 0.987812
-    [date] => 2025-03-25 19:07:48
-    [id_u] => 2
-)
-Array
-(
-    [crypto] => quant-network
-    [price] => -
-    [date] => 2025-03-25 20:22:42
-    [id_u] => 2
-)
-Array
-(
-    [crypto] => bitcoin
-    [price] => 87959
-    [date] => 2025-03-25 20:25:27
-    [id_u] => 2
-)
-Array
-(
-    [crypto] => 
-    [price] => 
-    [date] => 
-    [id_u] => 2
-)
-Array
-(
-    [crypto] => theta-token
-    [price] => 0.984728
-    [date] => 2025-03-25 22:44:28
-    [id_u] => 2
-)
-Array
-(
-    [crypto] => 
-    [price] => 
-    [date] => 
-    [id_u] => 2
-)
-Array
-(
-    [crypto] => 
-    [price] => 
-    [date] => 
-    [id_u] => 2
-)
-Array
-(
-    [crypto] => bitcoin
-    [price] => 87652
-    [date] => 2025-03-25 22:21:12
-    [id_u] => 2
-)
-Array
-(
-    [crypto] => bitcoin
-    [price] => 87486
-    [date] => 2025-03-25 22:29:27
-    [id_u] => 2
-)
-Array
-(
-    [crypto] => bitcoin
-    [price] => 87350
-    [date] => 2025-03-25 22:30:55
-    [id_u] => 2
-)
-Array
-(
-    [crypto] => theta-token
-    [price] => 0.987855
-    [date] => 2025-03-25 22:47:28
-    [id_u] => 2
-)
-Array
-(
-    [crypto] => theta-token
-    [price] => 1.022
-    [date] => 2025-03-26 08:00:12
-    [id_u] => 1
-)
-Array
-(
-    [crypto] => bitcoin
-    [price] => 88113
-    [date] => 2025-03-26 08:12:34
-    [id_u] => 1
-)
-Array
-(
-    [crypto] => theta-token
-    [price] => 1.023
-    [date] => 2025-03-26 08:25:19
-    [id_u] => 1
-)
-Array
-(
-    [crypto] => theta-token
-    [price] => 1.023
-    [date] => 2025-03-26 08:30:37
-    [id_u] => 1
-)
-Array
-(
-    [crypto] => theta-token
     [price] => 1.016
     [date] => 2025-03-26 10:52:22
     [id_u] => 1
@@ -130,4 +11,20 @@ Array
     [price] => -
     [date] => 2025-03-26 09:55:03
     [id_u] => 1
+)
+Array
+(
+    [crypto] => theta-token
+    [price] => 1.002
+    [date] => 2025-03-26 14:20:10
+    [id_u] => 1
+    [qte] => 10
+)
+Array
+(
+    [crypto] => theta-token
+    [price] => 0.997171
+    [date] => 2025-03-26 15:33:03
+    [id_u] => 1
+    [qte] => 
 )

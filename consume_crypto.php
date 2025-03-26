@@ -62,14 +62,15 @@ echo "En attente des messages...\n";
 $callback = function (AMQPMessage $msg) use ($pdo) {
 $indicator = json_decode($msg->body, true);
 
-    if (isset($indicator['crypto'], $indicator['price'], $indicator['date'], $indicator['id_u'])) {
+    if (isset($indicator['crypto'], $indicator['price'], $indicator['date'], $indicator['id_u'], $indicator['qte'])) {
         try {
-            $stmt = $pdo->prepare("INSERT INTO indicators (crypto, price, date, id_u) VALUES (:crypto, :price, :date, :id_u)");
+            $stmt = $pdo->prepare("INSERT INTO indicators (crypto, price, date, id_u, qte) VALUES (:crypto, :price, :date, :id_u, :qte)");
             $stmt->execute([
                 'crypto' => $indicator['crypto'],
                 'price' => $indicator['price'],
                 'date' => $indicator['date'],
-                'id_u' => intval($indicator['id_u'])
+                'id_u' => intval($indicator['id_u']),
+                'qte' => $indicator['qte']
             ]);
 
             echo "Indicateur enregistré: " . json_encode($indicator) . "\n";

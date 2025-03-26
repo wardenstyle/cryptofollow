@@ -8,16 +8,16 @@
 
                 <div class="col-lg-3 col-md-6">
                     <h5 class="mb-4">Localisation</h5>
-                    <p><i class="fa fa-map-marker-alt me-3"></i>15ème, Paris, FRANCE</p>
+                    <p><i class="fa fa-map-marker-alt me-3"></i>Rue des postes, Lille, FRANCE</p>
                     <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
                     <p><i class="fa fa-envelope me-3"></i>info@cryptofollow.com</p>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h5 class="mb-4">Nos Services</h5>
-                    <a class="btn btn-link" href="">Créer un compte</a>
-                    <a class="btn btn-link" href="">Consulter les cours</a>
-                    <a class="btn btn-link" href="">Poser un indicateur</a>
-                    <a class="btn btn-link" href="">Visualiser les statistiques</a>
+                    <a class="btn btn-link" href="register.php">Créer un compte</a>
+                    <a class="btn btn-link" href="markers_crypto.php">Consulter les cours</a>
+                    <a class="btn btn-link" href="price_crypto.php">Poser un indicateur</a>
+                    <a class="btn btn-link" href="markers_crypto.php">Visualiser les statistiques</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h5 class="mb-4">Liens rapides</h5>
@@ -43,8 +43,8 @@
                         &copy; <a href="#">CryptoFollow</a>, All Right Reserved.
                     </div>
                     <div class="col-md-6 text-center text-md-end">
-                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+
+                        Designed By <a href="https://github.com/wardenstyle">Wardenstyle</a>
                     </div>
                 </div>
             </div>

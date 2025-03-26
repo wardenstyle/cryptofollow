@@ -23,7 +23,7 @@ if(isset($_SESSION['id_u'])){
     }
 
     // Vérifier que les données POST sont présentes
-    if (!isset($_POST['crypto'], $_POST['price'], $_POST['date'],$_POST['id_u'])) {
+    if (!isset($_POST['crypto'], $_POST['price'], $_POST['date'],$_POST['id_u'],$_POST['qte'])) {
         echo json_encode(["success" => false, "error" => "Données manquantes"]);
         exit;
     }
@@ -33,6 +33,7 @@ if(isset($_SESSION['id_u'])){
     $price = floatval($_POST['price']);
     $date = $_POST['date']; // Format attendu : YYYY-MM-DD HH:MM:SS
     $user = $_POST['id_u'];
+    $qte = $_POST['qte'];
     // Debug : enregistrer les marqueurs dans un fichier log
     file_put_contents('debug_mark_crypto.log', print_r($_POST, true), FILE_APPEND);
 
@@ -40,7 +41,8 @@ if(isset($_SESSION['id_u'])){
         'crypto' => $crypto,
         'price' => $price,
         'date' => $date,
-        'id_u' => $user
+        'id_u' => $user,
+        'qte' => $qte
     ];
 
     try {

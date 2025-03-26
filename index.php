@@ -14,7 +14,7 @@
                 <div class="col-lg-6">
                     <h1 class="display-4 mb-3 animated slideInDown">Suivez l'évolution de vos crypto-monnaies favorites</h1>
                     <p class="animated slideInDown">Quand est-ce que j'ai acheté ma crypto... ? Quelle était sa valeur... ? Est-ce le bon moment d'acheter... ? CryptoFollow vous propose de suivre en temps réel la valeur de la crypto-monnaie.</p>
-                    <a href="" class="btn btn-primary py-3 px-4 animated slideInDown">En savoir plus</a>
+                    <a href="price_crypto.php" class="btn btn-primary py-3 px-4 animated slideInDown">En savoir plus</a>
                 </div>
                 <div class="col-lg-6 animated fadeIn">
                     <img class="img-fluid animated pulse infinite" style="animation-duration: 3s;" src="img/hero-1.png" alt="">
@@ -48,7 +48,7 @@
                         </div>
                         <div class="d-flex align-items-center mb-4">
                             <i class="fa fa-check bg-light text-primary btn-sm-square rounded-circle me-3 fw-bold"></i>
-                            <span>Obtenir des statistiques précises sur l'évolution de votre crypto-monnaies</span>
+                            <span>Obtenir des statistiques précises sur l'évolution de vos crypto-monnaies</span>
                         </div>
                         <a class="btn btn-primary py-3 px-4" href="price_crypto.php">c'est parti !</a>
                     </div>
