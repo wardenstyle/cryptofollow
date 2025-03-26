@@ -131,6 +131,7 @@
                         <img class="img-fluid mb-4" src="img/icon-9.png" alt="">
                         <h5 class="mb-3">Visualiser les statistiques</h5>
                         <p>Analyser les pertes/gains </p>
+                        <a href="markers_crypto.php">Cliquez ici <i class="fa fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
 
@@ -182,19 +183,7 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <!-- JavaScript Libraries externe-->
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
-    
+    <script src="scripts-loader.js"></script>  
 </body>
 
 </html>

@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 step3.innerHTML = `
                     <h2><img class="" src="img/c.png" alt=""> Etape 3</h2>
                     <h4>Consulter les marqueurs</h4>
-                    <a href="markers.php" style="color:white" class="btn btn-info w-100">Voir les marqueurs</a>
+                    <a href="markers_crypto.php" style="color:white" class="btn btn-info w-100">Voir les marqueurs</a>
                 `;
                 document.querySelector(".row.g-5").appendChild(step3);
             }

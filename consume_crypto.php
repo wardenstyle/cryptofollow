@@ -1,5 +1,14 @@
 <?php
 // consume_crypto.php - Consommation des messages de RabbitMQ et enregistrement en base de données
+if (php_sapi_name() !== 'cli') {
+    http_response_code(403);
+    die("Accès interdit.");
+}
+//ajouter ceci dans le .htaccess pour interdire l'accès à ce script
+// <Files "consume_crypto.php">
+//     Order Deny,Allow
+//     Deny from all
+// </Files>
 
 require 'vendor/autoload.php';
 require 'config.php';

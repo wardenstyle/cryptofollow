@@ -1,9 +1,12 @@
 <?php 
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
 //session_destroy();var_dump($_SESSION);//echo password_hash("bonjour", PASSWORD_DEFAULT);
 include('head.php'); 
-include('nav.php'); 
+include('nav.php');
+//var_dump($_SESSION['id_u']);
 ?>
 <script>
     var isLoggedIn = <?php echo isset($_SESSION["id_u"]) ? "true" : "false"; ?>;
@@ -86,10 +89,8 @@ include('nav.php');
 </div>
 <script src="js/connexion.js"></script>
 <script src="js/price_crypto.js"></script>
-
+<script src="scripts-loader.js"></script> 
 </body>
 
-<?php include('my_script.js'); ?>
-<script src="js/main.js"></script>
 <script src="js/marquer.js"></script>
 <?php include('footer.php'); ?>

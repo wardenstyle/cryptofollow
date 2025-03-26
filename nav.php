@@ -19,7 +19,15 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-4 py-lg-0">
                 <a href="index.php" class="nav-item nav-link active">Home</a>
-            <?php if(isset($_SESSION['id_u'])) { ?><a href="logout.php" class="nav-item nav-link">Déconnexion</a> <?php } 
+            <?php if(isset($_SESSION['id_u'])) { ?><a href="logout.php" class="nav-item nav-link">Déconnexion</a> 
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Profil</a>
+                    <div class="dropdown-menu shadow-sm m-0">
+                        <a href="price_crypto.php" class="dropdown-item">Nouveau marqueur</a>
+                        <a href="markers_crypto.php" class="dropdown-item">Mes marqueurs</a>
+                    </div>
+                </div>
+            <?php } 
             else {?>
                 <a href="log-in.php" class="nav-item nav-link">Se connecter / s'inscrire</a>
             <?php }?>
