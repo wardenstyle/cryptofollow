@@ -1,4 +1,6 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="charts/chart.js"></script>
+<script src="charts/moment.js"></script>
+<script src="charts/chartjs-adapter-moment.js"></script>
 <?php
 
 if (session_status() === PHP_SESSION_NONE) {

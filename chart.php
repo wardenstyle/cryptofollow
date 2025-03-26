@@ -80,7 +80,7 @@ try {
                 pointBackgroundColor: 'red',
             });
         });
-
+console.log(datasets);
         new Chart(ctx, {
             type: 'line',
             data: { datasets },

@@ -27,6 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 const labels = data.prices.map(entry => new Date(entry[0]).toISOString().split("T")[0]);
                 const prices = data.prices.map(entry => entry[1]);
 
+                console.log("Dates API CoinGecko:", labels); 
+
                 // Récupération des marqueurs enregistrés en base
                 fetch(`markers_crypto.php?crypto=${crypto}`)
                     .then(response => response.json())
@@ -48,13 +50,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                 labels: labels,
                                 datasets: [
                                     {
-                                        label: "Prix Historique",
+                                        label: "Prix Historiquessss",
                                         data: prices,
                                         borderColor: "blue",
                                         fill: false
                                     },
                                     {
-                                        label: "Marqueurs",
+                                        label: "Marqueurssss",
                                         data: markerPrices,
                                         borderColor: "red",
                                         pointBackgroundColor: "red",
