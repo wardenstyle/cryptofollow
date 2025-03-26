@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Erreur lors du chargement du graphique:", error));
     }
 
-    // 🔹 Bascule entre tableau et graphique au clic sur le bouton
+    // Bascule entre tableau et graphique au clic sur le bouton
     displayButton.addEventListener("click", function (event) {
         event.preventDefault(); // Empêche le rechargement de la page
 
@@ -156,10 +156,10 @@ document.addEventListener("DOMContentLoaded", function () {
         isChartDisplayed = !isChartDisplayed;
     });
 
-    // 🔹 Charger les indicateurs au démarrage
+    // Charger les indicateurs au démarrage
     loadIndicators(cryptoSelect.value);
 
-    // 🔹 Recharger les indicateurs lors du changement de crypto
+    // Recharger les indicateurs lors du changement de crypto
     cryptoSelect.addEventListener("change", function () {
         loadIndicators(this.value);
     });
