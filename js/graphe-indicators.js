@@ -24,16 +24,17 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`https://api.coingecko.com/api/v3/coins/${crypto}/market_chart?vs_currency=usd&days=30`)
             .then(response => response.json())
             .then(data => {
-                const labels = data.prices.map(entry => new Date(entry[0]).toLocaleDateString());
+                const labels = data.prices.map(entry => new Date(entry[0]).toISOString().split("T")[0]);
                 const prices = data.prices.map(entry => entry[1]);
 
                 // Récupération des marqueurs enregistrés en base
                 fetch(`markers_crypto.php?crypto=${crypto}`)
                     .then(response => response.json())
                     .then(markerData => {
-                        const markerDates = markerData.data.map(m => new Date(m.date).toLocaleDateString());
+                        const markerDates = markerData.data.map(m => new Date(m.date).toISOString().split("T")[0]);
                         const markerPrices = markerData.data.map(m => m.value);
-
+                        console.log("Dates des marqueurs enregistrés:", markerDates);
+                        console.log("Valeurs des marqueurs enregistrés:", markerPrices);
                         // Détruit le graphique précédent si existant
                         if (myChart) {
                             myChart.destroy();

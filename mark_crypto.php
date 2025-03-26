@@ -14,7 +14,7 @@ if(isset($_SESSION['id_u'])){
 
     require 'vendor/autoload.php';
     require 'config.php';
-    $config = include 'config.php';
+    $config = include ('config.php');
 
     //Vérification de la configuration
     if (!isset($config) || !is_array($config)) {
@@ -31,7 +31,7 @@ if(isset($_SESSION['id_u'])){
     // Récupérer et sécuriser les données
     $crypto = htmlspecialchars($_POST['crypto']);
     $price = floatval($_POST['price']);
-    $date = $_POST['date']; // Format attendu : YYYY-MM-DD HH:MM:SS
+    $date = date("Y-m-d H:i:s", strtotime($_POST['date'])); // Format attendu : YYYY-MM-DD HH:MM:SS
     $user = $_POST['id_u'];
     $qte = $_POST['qte'];
     // Debug : enregistrer les marqueurs dans un fichier log
@@ -52,7 +52,7 @@ if(isset($_SESSION['id_u'])){
             $config['rabbitmq']['port'],
             $config['rabbitmq']['user'],
             $config['rabbitmq']['pass']
-            //  $config['rabbitmq']['vhost'], pour la prod
+            //$config['rabbitmq']['vhost'], pour la prod
         );
 
         $channel = $connection->channel();
