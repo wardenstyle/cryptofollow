@@ -65,60 +65,66 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-        // Écouteur d'événements pour supprimer et modifier les indicateurs
-        indicatorsContainer.addEventListener("click", function (event) {
-            const target = event.target;
-            const row = target.closest("tr");
-            const id = row.getAttribute("data-id");
-    
-            // Suppression
-            if (target.closest(".delete-indicator")) {
-                if (confirm("Voulez-vous vraiment supprimer cet indicateur ?")) {
-                    fetch(`delete_indicator.php?id=${id}`, { method: "DELETE" })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                loadIndicators(cryptoSelect.value);
-                            } else {
-                                alert("Erreur lors de la suppression !");
-                            }
-                        })
-                        .catch(error => console.error("Erreur suppression:", error));
-                }
-            }
-    
-            // Modification de la quantité
-            if (target.closest(".edit-indicator")) {
-                const quantityText = row.querySelector(".quantity-text");
-                const quantityInput = row.querySelector(".quantity-input");
-    
-                if (quantityInput.style.display === "none") {
-                    // Passer en mode édition
-                    quantityText.style.display = "none";
-                    quantityInput.style.display = "inline-block";
-                    quantityInput.focus();
-                } else {
-                    // Enregistrer la modification
-                    const newQuantity = quantityInput.value;
-                    fetch(`update_indicator.php`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ id, qte: newQuantity })
-                    })
+    // Gérer les événements des boutons
+    indicatorsContainer.addEventListener("click", function (event) {
+        const target = event.target;
+        const row = target.closest("tr");
+        const id = row.getAttribute("data-id");
+
+        // Suppression
+        if (target.closest(".delete-indicator")) {
+            if (confirm("Voulez-vous vraiment supprimer cet indicateur ?")) {
+                fetch(`delete_indicator.php?id=${id}`, { method: "DELETE" })
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            quantityText.textContent = newQuantity;
-                            quantityText.style.display = "inline";
-                            quantityInput.style.display = "none";
+                            loadIndicators(cryptoSelect.value);
                         } else {
-                            alert("Erreur lors de la modification !");
+                            alert("Erreur lors de la suppression !");
                         }
                     })
-                    .catch(error => console.error("Erreur modification:", error));
-                }
+                    .catch(error => console.error("Erreur suppression:", error));
             }
-        });
+        }
+
+        // Modification de la quantité
+        if (target.closest(".edit-indicator")) {
+            event.preventDefault(); // Empêche un rechargement involontaire
+
+            const quantityText = row.querySelector(".quantity-text");
+            const quantityInput = row.querySelector(".quantity-input");
+            const editButton = target.closest(".edit-indicator");
+
+            if (quantityInput.style.display === "none") {
+                // Passer en mode édition
+                quantityText.style.display = "none";
+                quantityInput.style.display = "inline-block";
+                quantityInput.focus();
+                editButton.innerHTML = '<button title="sauvegarder" class="btn btn-success"><i class="fas fa-save"></i></button>'; // Changer l'icône
+            } else {
+                // Enregistrer la modification
+                const newQuantity = quantityInput.value;
+
+                fetch(`update_indicator.php`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id, qte: newQuantity })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        quantityText.textContent = newQuantity;
+                        quantityText.style.display = "inline";
+                        quantityInput.style.display = "none";
+                        editButton.innerHTML = '<i class="fas fa-edit"></i>'; // Remet l'icône d'édition
+                    } else {
+                        alert("Erreur lors de la modification !");
+                    }
+                })
+                .catch(error => console.error("Erreur modification:", error));
+            }
+        }
+    });
 
     // Fonction pour charger et afficher le graphique Chart.js
     function loadChart(crypto) {
@@ -129,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const labels = data.prices.map(entry => new Date(entry[0])); // Utilise un tableau d'objets Date
                 const prices = data.prices.map(entry => entry[1]);  // Tous les prix
 
-                let datasets = []; // Nous allons y ajouter les datasets
+                let datasets = [];
 
                 // Ajoute les prix historiques dans le dataset
                 datasets.push({

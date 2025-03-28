@@ -52,3 +52,43 @@ Array
     [id_u] => 2
     [qte] => 
 )
+Array
+(
+    [crypto] => bitcoin
+    [price] => 83860
+    [date] => 2025-03-28 20:27:15
+    [id_u] => 2
+    [qte] => 12
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 83860
+    [date] => 2025-03-28 20:28:04
+    [id_u] => 2
+    [qte] => 
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 83840
+    [date] => 2025-03-28 20:29:05
+    [id_u] => 2
+    [qte] => 
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 83882
+    [date] => 2025-03-28 20:37:50
+    [id_u] => 2
+    [qte] => 
+)
+Array
+(
+    [crypto] => theta-token
+    [price] => 83882
+    [date] => 2025-03-28 20:38:41
+    [id_u] => 2
+    [qte] => 
+)
