@@ -1,4 +1,4 @@
-<!-- <?php
+<?php
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -26,7 +26,7 @@ if (isset($_SESSION['id_u'])) {
         echo json_encode(["success" => false, "error" => "Erreur SQL : " . $e->getMessage()]);
     }
 
-} -->
+}
 
 
 
