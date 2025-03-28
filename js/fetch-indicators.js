@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th style="display:none">#</th>
                                         <th>Crypto</th>
                                         <th>Valeur</th>
                                         <th>Date</th>
@@ -30,13 +30,23 @@ document.addEventListener("DOMContentLoaded", function () {
                                 </thead>
                                 <tbody>
                                     ${data.data.map(indicator => `
-                                        <tr>
-                                            <td>${indicator.id}</td>
+                                        <tr data-id="${indicator.id}">
+                                            <td style="display:none">${indicator.id}</td>
                                             <td>${indicator.crypto}</td>
                                             <td>${indicator.price}</td>
                                             <td>${indicator.date}</td>
-                                            <td>${indicator.qte}</td>
-                                            <td><a href="#" class="text-danger delete-indicator" data-id="${indicator.id}">Supprimer</a></td>
+                                            <td>
+                                                <span class="quantity-text">${indicator.qte}</span>
+                                                <input type="number" class="quantity-input form-control" value="${indicator.qte}" style="display:none; width: 70px;">
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-warning edit-indicator">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger delete-indicator">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     `).join('')}
                                 </tbody>
@@ -54,6 +64,61 @@ document.addEventListener("DOMContentLoaded", function () {
                 indicatorsContainer.innerHTML = `<p style="color: red;">Erreur de chargement.</p>`;
             });
     }
+
+        // Écouteur d'événements pour supprimer et modifier les indicateurs
+        indicatorsContainer.addEventListener("click", function (event) {
+            const target = event.target;
+            const row = target.closest("tr");
+            const id = row.getAttribute("data-id");
+    
+            // Suppression
+            if (target.closest(".delete-indicator")) {
+                if (confirm("Voulez-vous vraiment supprimer cet indicateur ?")) {
+                    fetch(`delete_indicator.php?id=${id}`, { method: "DELETE" })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                loadIndicators(cryptoSelect.value);
+                            } else {
+                                alert("Erreur lors de la suppression !");
+                            }
+                        })
+                        .catch(error => console.error("Erreur suppression:", error));
+                }
+            }
+    
+            // Modification de la quantité
+            if (target.closest(".edit-indicator")) {
+                const quantityText = row.querySelector(".quantity-text");
+                const quantityInput = row.querySelector(".quantity-input");
+    
+                if (quantityInput.style.display === "none") {
+                    // Passer en mode édition
+                    quantityText.style.display = "none";
+                    quantityInput.style.display = "inline-block";
+                    quantityInput.focus();
+                } else {
+                    // Enregistrer la modification
+                    const newQuantity = quantityInput.value;
+                    fetch(`update_indicator.php`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ id, qte: newQuantity })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            quantityText.textContent = newQuantity;
+                            quantityText.style.display = "inline";
+                            quantityInput.style.display = "none";
+                        } else {
+                            alert("Erreur lors de la modification !");
+                        }
+                    })
+                    .catch(error => console.error("Erreur modification:", error));
+                }
+            }
+        });
 
     // Fonction pour charger et afficher le graphique Chart.js
     function loadChart(crypto) {
