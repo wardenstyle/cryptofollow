@@ -50,9 +50,10 @@ if (isset($_SESSION['id_u'])) {
                             <option value="injective-protocol">Injective Protocol</option>
                         </select>
 
-                    <h5>Indicateurs : <button class="btn btn-primary" id="display">Afficher le graphique</button></h5>
+                    <h5>Indicateurs: <button class="btn btn-primary" id="display">Afficher le graphique</button></h5>
                     <div id="indicatorsContainer">Sélectionnez une crypto pour voir les indicateurs.</div>
                     <canvas id="cryptoChart" style="display: none; width: 100%; max-height: 400px;"></canvas>
+                    <canvas id="cryptoBarChart"></canvas>
                 </form>
             </div>            
         </div>

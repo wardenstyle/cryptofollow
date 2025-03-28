@@ -2,12 +2,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const cryptoSelect = document.getElementById("cryptoSelect");
     const indicatorsContainer = document.getElementById("indicatorsContainer");
     const cryptoChartCanvas = document.getElementById("cryptoChart");
+    const cryptoBarChartCanvas = document.getElementById("cryptoBarChart");
     const displayButton = document.getElementById("display");
 
-    let myChart = null;
+    let myChart = null; // graphique des indicateurs
+    let myBarChart = null; // graphique des quantités
     let isChartDisplayed = false; // Pour basculer entre le tableau et le graphique
 
-    // 🔹 Fonction pour charger les indicateurs sous forme de tableau
+    // Fonction pour charger les indicateurs sous forme de tableau
     function loadIndicators(crypto) {
         fetch(`fetch_indicators.php?crypto=${encodeURIComponent(crypto)}`)
             .then(response => response.json())
@@ -18,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>#</th>
                                         <th>Crypto</th>
                                         <th>Valeur</th>
                                         <th>Date</th>
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    // 🔹 Fonction pour charger et afficher le graphique Chart.js
+    // Fonction pour charger et afficher le graphique Chart.js
     function loadChart(crypto) {
         fetch(`https://api.coingecko.com/api/v3/coins/${crypto}/market_chart?vs_currency=usd&days=30`)
             .then(response => response.json())
@@ -132,6 +134,59 @@ document.addEventListener("DOMContentLoaded", function () {
                                     }
                                 }
                             }
+
+                            
+                        });
+                        // ---- Génération du graphique en barres ----
+                        const monthlyQuantities = {};
+                        const markerQuantities = markerData.data.map(m => ({
+                            date: new Date(m.date),
+                            qte: Number(m.qte) // Convertir en nombre au cas où
+                        }));
+
+                        markerQuantities.forEach(({ date, qte }) => {
+                            const month = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}`;
+                            if (!monthlyQuantities[month]) {
+                                monthlyQuantities[month] = 0;
+                            }
+                            monthlyQuantities[month] += qte;
+                        });
+
+                        const barLabels = Object.keys(monthlyQuantities);
+                        const barData = Object.values(monthlyQuantities);
+
+                        if (myBarChart) {
+                            myBarChart.destroy();
+                        }
+
+                        const barCtx = cryptoBarChartCanvas.getContext("2d");
+                        myBarChart = new Chart(barCtx, {
+                            type: "bar",
+                            data: {
+                                labels: barLabels,
+                                datasets: [{
+                                    label: "Quantité Totale par Mois",
+                                    data: barData,
+                                    backgroundColor: "green"
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: "Mois"
+                                        }
+                                    },
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: "Quantité"
+                                        }
+                                    }
+                                }
+                            }
                         });
                     });
             })
@@ -145,10 +200,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isChartDisplayed) {
             indicatorsContainer.style.display = "block";
             cryptoChartCanvas.style.display = "none";
+            cryptoBarChartCanvas.style.display = "none";
             displayButton.textContent = "Afficher le graphique";
         } else {
             indicatorsContainer.style.display = "none";
             cryptoChartCanvas.style.display = "block";
+            cryptoBarChartCanvas.style.display = "block";
             loadChart(cryptoSelect.value);
             displayButton.textContent = "Afficher les indicateurs";
         }
