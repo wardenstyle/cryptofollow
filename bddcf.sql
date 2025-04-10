@@ -23,7 +23,8 @@ INSERT INTO `indicators` (`id`, `crypto`, `price`, `date`, `id_u`, `qte`,`type`)
 
 
 -- --------------------------------------------------------
-
+-- UPDATE indicators
+-- SET type = 'Achat';
 --
 -- Structure de la table `users`
 --

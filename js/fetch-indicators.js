@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fonction pour charger et afficher le graphique Chart.js
     function loadChart(crypto) {
-        fetch(`https://api.coingecko.com/api/v3/coins/${crypto}/market_chart?vs_currency=usd&days=30`)
+        fetch(`https://api.coingecko.com/api/v3/coins/${crypto}/market_chart?vs_currency=usd&days=365`)
             .then(response => response.json())
             .then(data => {
                 
@@ -326,13 +326,13 @@ document.addEventListener("DOMContentLoaded", function () {
             indicatorsContainer.style.display = "block";
             cryptoChartCanvas.style.display = "none";
             cryptoBarChartCanvas.style.display = "none";
-            displayButton.textContent = "Afficher le graphique";
+            displayButton.textContent = "Graphique";
         } else {
             indicatorsContainer.style.display = "none";
             cryptoChartCanvas.style.display = "block";
             cryptoBarChartCanvas.style.display = "block";
             loadChart(cryptoSelect.value);
-            displayButton.textContent = "Afficher les indicateurs";
+            displayButton.textContent = "Indicateurs";
         }
 
         isChartDisplayed = !isChartDisplayed;

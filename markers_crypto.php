@@ -53,7 +53,8 @@ if (isset($_SESSION['id_u'])) {
                         <div class="d-flex justify-content-between align-items-center mt-3 mb-2">
                             <h5 class="mb-0">Indicateurs:</h5>
                                 <div class="d-flex gap-2">
-                                    <button class="btn btn-primary" id="display" type="button">Afficher le graphique</button>
+                                    <a href="compare_indicators.php" class="btn btn-primary" id="compare" type="button"><i class="fas fa-exchange-alt"></i>|Comparateur</a>
+                                    <button class="btn btn-primary" id="display" type="button"><i class="fas fa-chart-line"></i>|Graphique</button>
                                     <button class="btn btn-success" id="btnAchat" type="button">Achats</button>
                                     <button class="btn btn-danger" id="btnVente" type="button">Ventes</button>
                                     <button class="btn btn-secondary" id="btnTout" type="button">Tout</button>
