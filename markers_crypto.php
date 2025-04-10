@@ -43,7 +43,7 @@ if (isset($_SESSION['id_u'])) {
                 
                 <form id="cryptoForm">
 
-                        <select class="form-select" id="cryptoSelect">
+                        <select class="form-select" id="cryptoSelect" name="cryptoSelect">
                             <option value="bitcoin">Bitcoin</option>
                             <option value="theta-token">Theta Token</option>
                             <option value="quant-network">Quant Network</option>
@@ -53,7 +53,7 @@ if (isset($_SESSION['id_u'])) {
                         <div class="d-flex justify-content-between align-items-center mt-3 mb-2">
                             <h5 class="mb-0">Indicateurs:</h5>
                                 <div class="d-flex gap-2">
-                                    <a href="compare_indicators.php" class="btn btn-primary" id="compare" type="button"><i class="fas fa-exchange-alt"></i>|Comparateur</a>
+                                    <a href="compare_indicators.php?" class="btn btn-primary" id="compare" type="button"><i class="fas fa-exchange-alt"></i>|Comparateur</a>
                                     <button class="btn btn-primary" id="display" type="button"><i class="fas fa-chart-line"></i>|Graphique</button>
                                     <button class="btn btn-success" id="btnAchat" type="button">Achats</button>
                                     <button class="btn btn-danger" id="btnVente" type="button">Ventes</button>

@@ -72,6 +72,19 @@ document.addEventListener("DOMContentLoaded", function () {
             indicatorsContainer.innerHTML = "<p>Aucun indicateur trouvé pour cette crypto.</p>";
         }
     }
+    // envoi de la crypto selectionné vers la page du comparateur
+    document.getElementById('compare').addEventListener('click', function (e) {
+        e.preventDefault();
+    
+        const selectedCrypto = document.getElementById('cryptoSelect').value;
+    
+        if (selectedCrypto) {
+            // Rediriger vers compare_indicators.php avec la crypto en GET
+            window.location.href = `compare_indicators.php?crypto=${encodeURIComponent(selectedCrypto)}`;
+        } else {
+            alert("Veuillez sélectionner une crypto.");
+        }
+    });
     // Gérer les boutons filtres (Achat,Vente,Tout)
     document.getElementById("btnAchat").addEventListener("click", function () {
         const crypto = document.getElementById("cryptoSelect").value;
