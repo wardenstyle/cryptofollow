@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `indicators` (
   `date` datetime NOT NULL,
   `id_u` int NOT NULL,
   `qte` decimal(10,5) NOT NULL,
+  `type` varchar(10) NOT NULL, 
   PRIMARY KEY (`id`),
   KEY `id_u` (`id_u`)
 ) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -14,11 +15,11 @@ CREATE TABLE IF NOT EXISTS `indicators` (
 -- Déchargement des données de la table `indicators`
 --
 
-INSERT INTO `indicators` (`id`, `crypto`, `price`, `date`, `id_u`, `qte`) VALUES
+INSERT INTO `indicators` (`id`, `crypto`, `price`, `date`, `id_u`, `qte`,`type`) VALUES
 
-(21, 'bitcoin', 87762.00, '2025-03-25 16:55:31', 0, 0.00),
-(23, 'bitcoin', 87769.00, '2025-03-25 17:00:16', 0, 0.00),
-(29, 'bitcoin', 88113.00, '2025-03-26 08:12:34', 1, 0.00),
+(21, 'bitcoin', 87762.00, '2025-03-25 16:55:31', 0, 0.00,'Achat'),
+(23, 'bitcoin', 87769.00, '2025-03-25 17:00:16', 0, 0.00,'Achat'),
+(29, 'bitcoin', 88113.00, '2025-03-26 08:12:34', 1, 0.00,'Achat'),
 
 
 -- --------------------------------------------------------

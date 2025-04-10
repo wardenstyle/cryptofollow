@@ -57,8 +57,19 @@ include('nav.php');
             <!-- Bloc 3 : Formulaire d'Indicateur -->
             <div class="col-lg-6 col-12">
                 <h2><img class="" src="img/b.png" alt="">Etape 2</h2>
-                <h4>Poser un indicateur</h4>
+                
                 <form id="indicatorForm">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h4>Poser un indicateur</h4>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="type" id="achat" value="Achat" checked>
+                            <label class="form-check-label" for="achat">Achat</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="type" id="vente" value="Vente">
+                            <label class="form-check-label" for="vente">Vente</label>
+                        </div>
+                    </div>
                     <div class="d-flex gap-2">
                         <div class="flex-fill">
                             <label for="crypto" class="form-label">Crypto</label>

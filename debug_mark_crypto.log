@@ -92,3 +92,55 @@ Array
     [id_u] => 2
     [qte] => 
 )
+Array
+(
+    [crypto] => bitcoin
+    [price] => 76126
+    [date] => 2025-04-09 12:09:05
+    [id_u] => 1
+    [qte] => 1
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 76126
+    [date] => 2025-04-09 12:09:05
+    [id_u] => 1
+    [qte] => 
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 76832
+    [date] => 2025-04-09 13:27:08
+    [id_u] => 1
+    [qte] => 
+    [type] => Achat
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 76832
+    [date] => 2025-04-09 13:27:42
+    [id_u] => 1
+    [qte] => 
+    [type] => Achat
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 76832
+    [date] => 2025-04-09 13:27:59
+    [id_u] => 1
+    [qte] => 
+    [type] => Vente
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 76812
+    [date] => 2025-04-09 13:29:33
+    [id_u] => 1
+    [qte] => 
+    [type] => Vente
+)

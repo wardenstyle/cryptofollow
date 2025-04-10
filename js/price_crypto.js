@@ -44,13 +44,16 @@
     
         document.getElementById('markButton').addEventListener('click', function(event) {
             event.preventDefault(); // Empêche le rechargement de la page
-            console.log("Le bouton Marquer a été cliqué !");
+            console.log("Le bouton Marquer a été cliqué sur!");
             let crypto = document.getElementById('crypto').value;
             let price = document.getElementById('price').value;
             let date = document.getElementById('date').value;
             let user = document.getElementById('id_u').value;
             let qte = document.getElementById('qte').value;
-    
+            let type;
+            if(document.getElementById('achat').checked) {type = document.getElementById('achat').value}
+            else {type = document.getElementById('vente').value}
+
             // Préparation des données pour l'envoi
             let formData = new FormData();
             formData.append("crypto", crypto);
@@ -58,6 +61,7 @@
             formData.append("date", date);
             formData.append("id_u", user);
             formData.append("qte", qte);
+            formData.append("type", type);
     
             // Envoi des données à mark_crypto.php
             fetch("mark_crypto.php", {

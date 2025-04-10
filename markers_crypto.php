@@ -50,7 +50,15 @@ if (isset($_SESSION['id_u'])) {
                             <option value="injective-protocol">Injective Protocol</option>
                         </select>
 
-                    <h5>Indicateurs: <button class="btn btn-primary" id="display">Afficher le graphique</button></h5>
+                        <div class="d-flex justify-content-between align-items-center mt-3 mb-2">
+                            <h5 class="mb-0">Indicateurs:</h5>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-primary" id="display" type="button">Afficher le graphique</button>
+                                    <button class="btn btn-success" id="btnAchat" type="button">Achats</button>
+                                    <button class="btn btn-danger" id="btnVente" type="button">Ventes</button>
+                                    <button class="btn btn-secondary" id="btnTout" type="button">Tout</button>
+                                </div>
+                        </div>
                     <div id="indicatorsContainer">Sélectionnez une crypto pour voir les indicateurs.</div>
                     <canvas id="cryptoChart" style="display: none; width: 100%; max-height: 400px;"></canvas>
                     <canvas id="cryptoBarChart"></canvas>

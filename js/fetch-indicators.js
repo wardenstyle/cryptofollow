@@ -10,62 +10,85 @@ document.addEventListener("DOMContentLoaded", function () {
     let isChartDisplayed = false; // Pour basculer entre le tableau et le graphique
 
     // Fonction pour charger les indicateurs sous forme de tableau
-    function loadIndicators(crypto) {
-        fetch(`fetch_indicators.php?crypto=${encodeURIComponent(crypto)}`)
+    function loadIndicators(crypto, type = 'all') {
+        fetch(`fetch_indicators.php?crypto=${encodeURIComponent(crypto)}&type=${type}`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    if (data.data.length > 0) {
-                        indicatorsContainer.innerHTML = `
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th style="display:none">#</th>
-                                        <th>Crypto</th>
-                                        <th>Valeur</th>
-                                        <th>Date</th>
-                                        <th>Quantité</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${data.data.map(indicator => `
-                                        <tr data-id="${indicator.id}">
-                                            <td style="display:none">${indicator.id}</td>
-                                            <td>${indicator.crypto}</td>
-                                            <td>${indicator.price}</td>
-                                            <td>${indicator.date}</td>
-                                            <td>
-                                                <span class="quantity-text">${indicator.qte}</span>
-                                                <input type="number" class="quantity-input form-control" value="${indicator.qte}" style="display:none; width: 70px;">
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm btn-warning edit-indicator">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-danger delete-indicator">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        `;
-                    } else {
-                        indicatorsContainer.innerHTML = "<p>Aucun indicateur trouvé pour cette crypto.</p>";
-                    }
+                    updateIndicatorsTable(data.data); // Affiche le tableau => updateIndicatorsTable
+                    updateBarChart(data.data); // Met à jour le graphique => BarChart
                 } else {
                     indicatorsContainer.innerHTML = `<p style="color: red;">Erreur: ${data.error}</p>`;
                 }
             })
             .catch(error => {
                 console.error("Erreur lors du chargement des indicateurs:", error);
-                indicatorsContainer.innerHTML = `<p style="color: red;">Erreur de chargement.</p>`;
+                indicatorsContainer.innerHTML = `<p style="color: red;">Erreur du chargement des données.</p>`;
             });
     }
 
-    // Gérer les événements des boutons
+    //affichage dans le tableau 
+    function updateIndicatorsTable(data) {
+        if (data.length > 0) {
+            indicatorsContainer.innerHTML = `
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="display:none">#</th>
+                            <th>Crypto</th>
+                            <th>Valeur</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Quantité</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.map(indicator => `
+                            <tr data-id="${indicator.id}">
+                                <td style="display:none">${indicator.id}</td>
+                                <td>${indicator.crypto}</td>
+                                <td>${indicator.price}</td>
+                                <td>${indicator.date}</td>
+                                <td>${indicator.type}</td>
+                                <td>
+                                    <span class="quantity-text">${indicator.qte}</span>
+                                    <input type="number" class="quantity-input form-control" value="${indicator.qte}" style="display:none; width: 70px;">
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning edit-indicator">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger delete-indicator">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        } else {
+            indicatorsContainer.innerHTML = "<p>Aucun indicateur trouvé pour cette crypto.</p>";
+        }
+    }
+    // Gérer les boutons filtres (Achat,Vente,Tout)
+    document.getElementById("btnAchat").addEventListener("click", function () {
+        const crypto = document.getElementById("cryptoSelect").value;
+        loadIndicators(crypto, "achat");
+    });
+    
+    document.getElementById("btnVente").addEventListener("click", function () {
+        const crypto = document.getElementById("cryptoSelect").value;
+        loadIndicators(crypto, "vente");
+    });
+    
+    document.getElementById("btnTout").addEventListener("click", function () {
+        const crypto = document.getElementById("cryptoSelect").value;
+        loadIndicators(crypto, "all");
+    });
+
+    // Gérer les événements des boutons Actions (modifier,sauvegarder,supprimer)
     indicatorsContainer.addEventListener("click", function (event) {
         const target = event.target;
         const row = target.closest("tr");
@@ -151,23 +174,41 @@ document.addEventListener("DOMContentLoaded", function () {
                 fetch(`fetch_indicators.php?crypto=${crypto}`)
                     .then(response => response.json())
                     .then(markerData => {
-                        const markerDates = markerData.data.map(m => new Date(m.date));
-                        const markerPrices = markerData.data.map(m => m.price);
+                        const achats = [];
+                        const ventes = [];
 
-                        // Ajoute les marqueurs dans le dataset
+                        markerData.data.forEach(m => {
+                            const point = {
+                                x: new Date(m.date),
+                                y: m.price
+                            };
+                            if (m.type === "Achat") {
+                                achats.push(point);
+                            } else if (m.type === "Vente") {
+                                ventes.push(point);
+                            }
+                        });
+
+                        // Marqueurs Achat (verts)
                         datasets.push({
-                            label: "Marqueurs",
-                            data: markerPrices.map((price, index) => ({
-                                x: markerDates[index],
-                                y: price
-                            })),
-                            borderColor: "red",
-                            backgroundColor: "red",
-                            pointBackgroundColor: "red",
-                            pointRadius: 6, // Taille des points rouges
+                            label: "Achat",
+                            data: achats,
+                            type: "scatter",
+                            backgroundColor: "green",
                             pointBorderColor: "black",
-                            pointHoverRadius: 8,
-                            type: "scatter" // Type de graphique pour les marqueurs
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        });
+
+                        // Marqueurs Vente (rouges)
+                        datasets.push({
+                            label: "Vente",
+                            data: ventes,
+                            type: "scatter",
+                            backgroundColor: "red",
+                            pointBorderColor: "black",
+                            pointRadius: 6,
+                            pointHoverRadius: 8
                         });
 
                         // Détruit l'ancien graphique s'il existe
@@ -187,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                         type: 'time',
                                         time: {
                                             unit: 'day',
-                                            tooltipFormat: 'YYYY-MM-DD' // Format de la date dans l'info-bulle
+                                            tooltipFormat: 'YYYY-MM-DD'
                                         }
                                     },
                                     y: {
@@ -205,26 +246,32 @@ document.addEventListener("DOMContentLoaded", function () {
                                     }
                                 }
                             }
-
-                            
                         });
-                        // ---- Génération du graphique en barres ----
-                        const monthlyQuantities = {};
-                        const markerQuantities = markerData.data.map(m => ({
-                            date: new Date(m.date),
-                            qte: Number(m.qte) // Convertir en nombre au cas où
-                        }));
+                        // ---- Génération du graphique en barres (achats vs ventes) ----
+                        const monthlyQuantitiesAchat = {};
+                        const monthlyQuantitiesVente = {};
 
-                        markerQuantities.forEach(({ date, qte }) => {
-                            const month = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}`;
-                            if (!monthlyQuantities[month]) {
-                                monthlyQuantities[month] = 0;
+                        markerData.data.forEach(({ date, qte, type }) => {
+                            const d = new Date(date);
+                            const month = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}`;
+
+                            if (type === "Achat") {
+                                if (!monthlyQuantitiesAchat[month]) monthlyQuantitiesAchat[month] = 0;
+                                monthlyQuantitiesAchat[month] += Number(qte);
+                            } else if (type === "Vente") {
+                                if (!monthlyQuantitiesVente[month]) monthlyQuantitiesVente[month] = 0;
+                                monthlyQuantitiesVente[month] += Number(qte);
                             }
-                            monthlyQuantities[month] += qte;
                         });
 
-                        const barLabels = Object.keys(monthlyQuantities);
-                        const barData = Object.values(monthlyQuantities);
+                        // Fusionne les labels (mois) uniques
+                        const allMonths = Array.from(new Set([
+                            ...Object.keys(monthlyQuantitiesAchat),
+                            ...Object.keys(monthlyQuantitiesVente)
+                        ])).sort();
+
+                        const achatData = allMonths.map(month => monthlyQuantitiesAchat[month] || 0);
+                        const venteData = allMonths.map(month => monthlyQuantitiesVente[month] || 0);
 
                         if (myBarChart) {
                             myBarChart.destroy();
@@ -234,12 +281,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         myBarChart = new Chart(barCtx, {
                             type: "bar",
                             data: {
-                                labels: barLabels,
-                                datasets: [{
-                                    label: "Quantité Totale par Mois",
-                                    data: barData,
-                                    backgroundColor: "green"
-                                }]
+                                labels: allMonths,
+                                datasets: [
+                                    {
+                                        label: "Achats",
+                                        data: achatData,
+                                        backgroundColor: "green"
+                                    },
+                                    {
+                                        label: "Ventes",
+                                        data: venteData,
+                                        backgroundColor: "red"
+                                    }
+                                ]
                             },
                             options: {
                                 scales: {
@@ -291,4 +345,72 @@ document.addEventListener("DOMContentLoaded", function () {
     cryptoSelect.addEventListener("change", function () {
         loadIndicators(this.value);
     });
+
+    function updateBarChart(data) {
+        const monthlyQuantitiesAchat = {};
+        const monthlyQuantitiesVente = {};
+    
+        data.forEach(({ date, qte, type }) => {
+            const d = new Date(date);
+            const month = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}`;
+    
+            if (type === "Achat") {
+                if (!monthlyQuantitiesAchat[month]) monthlyQuantitiesAchat[month] = 0;
+                monthlyQuantitiesAchat[month] += Number(qte);
+            } else if (type === "Vente") {
+                if (!monthlyQuantitiesVente[month]) monthlyQuantitiesVente[month] = 0;
+                monthlyQuantitiesVente[month] += Number(qte);
+            }
+        });
+    
+        const allMonths = Array.from(new Set([
+            ...Object.keys(monthlyQuantitiesAchat),
+            ...Object.keys(monthlyQuantitiesVente)
+        ])).sort();
+    
+        const achatData = allMonths.map(month => monthlyQuantitiesAchat[month] || 0);
+        const venteData = allMonths.map(month => monthlyQuantitiesVente[month] || 0);
+    
+        if (myBarChart) {
+            myBarChart.destroy();
+        }
+    
+        const barCtx = cryptoBarChartCanvas.getContext("2d");
+        myBarChart = new Chart(barCtx, {
+            type: "bar",
+            data: {
+                labels: allMonths,
+                datasets: [
+                    {
+                        label: "Achats",
+                        data: achatData,
+                        backgroundColor: "green"
+                    },
+                    {
+                        label: "Ventes",
+                        data: venteData,
+                        backgroundColor: "red"
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Mois"
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "Quantité"
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
 });
