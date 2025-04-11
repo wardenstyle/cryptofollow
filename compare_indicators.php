@@ -1,4 +1,6 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
+<style>canvas { margin: auto;}</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <?php
 // compare_indicators.php - Affichage et comparaison des indicateurs
 if (session_status() === PHP_SESSION_NONE) {
@@ -53,7 +55,6 @@ if (isset($_SESSION['id_u'])) {
         $apiUrl = "https://api.coingecko.com/api/v3/simple/price?ids=injective-protocol&vs_currencies=usd";
         $cryptoPrice = null;
 
-        // Essayer de récupérer les données de l'API
         $response = @file_get_contents($apiUrl); // Le "@" cache l'erreur de PHP
 
         if ($response === FALSE) {
@@ -100,14 +101,20 @@ if (isset($_SESSION['id_u'])) {
 </nav>
 
 <div class="container mt-5">
-    <h5 class="text-center">Comparaison des indicateurs d'achats avec le cours actuel du token <?php echo $selectedCrypto; ?> </h5>
-
-        <!-- Bouton Retour -->
-        <div class="text-center mt-4">
-        <a href="markers_crypto.php" class="btn btn-primary">
-            <i class="fas fa-arrow-left"></i> Retour
-        </a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">
+        Comparaison en temps réel des indicateurs d'achats avec le cours actuel du token <?php echo $selectedCrypto; ?>
+    </h5>
+    <a href="markers_crypto.php" class="btn btn-primary">
+        <i class="fas fa-arrow-left"></i> Retour
+    </a>
     </div>
+    <input name="crypto" type="hidden" id="crypto" value="<?php echo $selectedCrypto?>">
+    </br>
+    <canvas id="cryptoChart" height="100"></canvas>
+    <!--Script charts -->
+    <script src="js/price_real_time.js"></script>
+
 
     <?php if (isset($cryptoPriceError) && $cryptoPriceError): ?>
         <p class="error-message" style="color:red; text-align:center;">Erreur de chargement des données, veuillez réessayer plus tard.</p>
@@ -140,10 +147,12 @@ if (isset($_SESSION['id_u'])) {
                         $color = ($difference !== 'N/A' && $difference >= 0) ? 'green' : 'red';
                     ?>
                     <tr>
-                        <td>$ <?php echo htmlspecialchars($oldPrice); ?></td>
+                        <td> <?php echo htmlspecialchars($oldPrice); ?>$</td>
                         <td><?php echo htmlspecialchars($indicator['date']); ?></td>
-                        <td>$ <?php echo htmlspecialchars($currentPrice); ?></td>
-                        <td style="color:<?php echo $color; ?>"><?php echo ($difference !== 'N/A' ? "$ " . htmlspecialchars($difference) : 'N/A'); ?></td>
+                        <td> <?php echo htmlspecialchars($currentPrice); ?>$</td>
+                        <td id="evolution-<?php echo $crypto; ?>" data-old="<?php echo $oldPrice; ?>" style="color:<?php echo $color; ?>">
+                            <?php echo ($difference !== 'N/A' ? htmlspecialchars($difference) . " $" : 'N/A'); ?>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -157,6 +166,29 @@ if (isset($_SESSION['id_u'])) {
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<!--Script actualisation -->
+<script>
+    setInterval(() => {
+        fetch('consume_price.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.crypto && data.nouveau_prix) {
+                    const cell = document.getElementById('evolution-' + data.crypto);
+                    if (cell) {
+                        // Supposons que tu stockes l'ancien prix dans un attribut data
+                        const oldPrice = parseFloat(cell.getAttribute('data-old')) || 0;
+                        const newPrice = parseFloat(data.nouveau_prix);
+                        const evolution = (newPrice - oldPrice).toFixed(2);
+                        const color = evolution >= 0 ? 'green' : 'red';
+                        
+                        cell.textContent = evolution + ' $';
+                        cell.style.color = color;
+                    }
+                }
+            })
+            .catch(err => console.error("Erreur AJAX:", err));
+    }, 5000); // mise à jour toutes les 5 secondes
+</script>
 
 </body>
 </html>
