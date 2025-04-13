@@ -49,6 +49,7 @@
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
+      console.log("Message reçu via WebSocket:", data);
       const heure = new Date(data.timestamp * 1000).toLocaleTimeString();
 
       // On limite à 20 points

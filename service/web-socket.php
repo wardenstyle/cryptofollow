@@ -1,5 +1,6 @@
 <?php
 require '../vendor/autoload.php';
+$config = include '../config.php';
 
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
@@ -52,7 +53,12 @@ $webServer = new Ratchet\Server\IoServer(
 );
 
 // Connexion à RabbitMQ
-$amqpConnection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
+$amqpConnection = new AMQPStreamConnection(
+    $config['rabbitmq']['host'],
+    $config['rabbitmq']['port'],
+    $config['rabbitmq']['user'],
+    $config['rabbitmq']['pass']
+);
 $channel = $amqpConnection->channel();
 $channel->queue_declare('crypto_prices', false, true, false, false);
 

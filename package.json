@@ -1,0 +1,20 @@
+{
+  "name": "cryptofollow",
+  "version": "1.0.0",
+  "description": "Le but est de comparer la valeur d'une cryptomonaie dans le temps à l'aide d'indicateur.\r RabbitMQ est utilisé pour l'envoi de message. Une vue graphique sera implémenté pour afficher les statistiques.",
+  "main": "scripts-loader.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.7",
+    "ws": "^8.18.1"
+  }
+}

@@ -1,6 +1,8 @@
 let crypto = document.getElementById("crypto").value;
 const ctx = document.getElementById('cryptoChart').getContext('2d');
-
+if (chart) {
+  chart.destroy();
+}
     const chart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -23,7 +25,7 @@ const ctx = document.getElementById('cryptoChart').getContext('2d');
       }
     });
 
-    const ws = new WebSocket("ws://localhost:8080"); // adapte si besoin
+    const ws = new WebSocket("ws://localhost:8080");
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);

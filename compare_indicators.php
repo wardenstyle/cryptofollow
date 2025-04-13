@@ -1,30 +1,29 @@
 <!DOCTYPE html>
-<style>canvas { margin: auto;}</style>
+<style>canvas { margin: auto; }</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!--script pour lancer le producer de la scrypto seléctionné en get a interval régulier -->
+<script src="js/reload_producer.js"></script>
+
 <?php
-// compare_indicators.php - Affichage et comparaison des indicateurs
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-
-// Masquer l'affichage des erreurs
 ini_set('display_errors', 0);
 require 'vendor/autoload.php';
 $config = include 'config.php';
-
 include('head.php');
 
 if (isset($_SESSION['id_u'])) {
-
     if (isset($_GET['crypto'])) {
-        $selectedCrypto = $_GET['crypto'] ?? null;
-     }
-   
+        $selectedCrypto = $_GET['crypto'] ?? 'bitcoin';
+    }
+
     $id = $_SESSION['id_u'];
+
     try {
-        // Connexion à la base de données
         $pdo = new PDO(
             "mysql:host={$config['db']['host']};dbname={$config['db']['dbname']};charset=utf8",
             $config['db']['user'],
@@ -32,45 +31,33 @@ if (isset($_SESSION['id_u'])) {
             [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
         );
 
-        // Récupération des indicateurs stockés
+        // Récupération des indicateurs
         $stmt = $pdo->prepare("SELECT * FROM indicators WHERE id_u = :id AND crypto = :crypto AND type = 'Achat' ORDER BY date DESC");
         $stmt->execute(['id' => $id, 'crypto' => $selectedCrypto]);
         $indicators = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Récupération des prix actuels
-        $cryptoPrices = [];
-        foreach ($indicators as $indicator) {
-            $crypto = $indicator['crypto'];
-            if (!isset($cryptoPrices[$crypto])) {
-                $apiUrl = "https://api.coingecko.com/api/v3/simple/price?ids={$crypto}&vs_currencies=usd";
-                $response = file_get_contents($apiUrl);
-                $data = json_decode($response, true);
-                if (isset($data[$crypto]['usd'])) {
-                    $cryptoPrices[$crypto] = $data[$crypto]['usd'];
-                }
-            }
-        }
-
-        // Affichage de l'API Injective Protocol
-        $apiUrl = "https://api.coingecko.com/api/v3/simple/price?ids=injective-protocol&vs_currencies=usd";
-        $cryptoPrice = null;
-
-        $response = @file_get_contents($apiUrl); // Le "@" cache l'erreur de PHP
-
-        if ($response === FALSE) {
-            $cryptoPriceError = true;
+        // Lire les prix en temps réel depuis RabbitMQ via consume_price.php
+        $realtime = json_decode(file_get_contents('consume_price.php'), true);
+        if ($realtime) {
+            $crypto = $realtime['crypto'];
+            $currentPrice = $realtime['price']; // Prix actuel
+            $timestamp = $realtime['timestamp']; 
         } else {
-            $data = json_decode($response, true);
+            //echo "Aucune donnée reçue.";
+        }        
+        $cryptoPrices = [];
 
-            // Vérifier si la donnée est présente
-            if (isset($data['injective-protocol']['usd'])) {
-                $cryptoPrice = $data['injective-protocol']['usd'];
-                $cryptoPriceError = false;
-            } else {
-                $cryptoPriceError = true;
+        if (!isset($realtime['status']) || $realtime['status'] !== 'empty') {
+            if (isset($realtime['data'])) {
+                foreach ($realtime['data'] as $entry) {
+                    if (isset($entry['symbol']) && isset($entry['price'])) {
+                        $cryptoPrices[strtolower($entry['symbol'])] = $entry['price'];
+                    }
+                }
+            } elseif (isset($realtime['symbol']) && isset($realtime['price'])) {
+                $cryptoPrices[strtolower($realtime['symbol'])] = $realtime['price'];
             }
         }
-
 ?>
 
 <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 px-4 px-lg-5">
@@ -111,18 +98,10 @@ if (isset($_SESSION['id_u'])) {
     </div>
     <input name="crypto" type="hidden" id="crypto" value="<?php echo $selectedCrypto?>">
     </br>
+        <!--Graphique -->
     <canvas id="cryptoChart" height="100"></canvas>
-    <!--Script charts -->
-    <script src="js/price_real_time.js"></script>
+    <!-- <script src="js/price_real_time.js"></script> -->
 
-
-    <?php if (isset($cryptoPriceError) && $cryptoPriceError): ?>
-        <p class="error-message" style="color:red; text-align:center;">Erreur de chargement des données, veuillez réessayer plus tard.</p>
-    <?php elseif ($cryptoPrice !== null): ?>
-        <!-- <p class="text-center">Le prix actuel de Injective Protocol est : <strong><?php // echo $cryptoPrice; ?> USD</strong></p> -->
-    <?php endif; ?>
-
-    <!-- Si aucun indicateur n'est trouvé -->
     <?php if (count($indicators) === 0): ?>
         <div class="alert alert-info text-center" role="alert">
             Vous n'avez pas d'indicateur actuellement pour cette cryptomonnaie.
@@ -147,9 +126,9 @@ if (isset($_SESSION['id_u'])) {
                         $color = ($difference !== 'N/A' && $difference >= 0) ? 'green' : 'red';
                     ?>
                     <tr>
-                        <td> <?php echo htmlspecialchars($oldPrice); ?>$</td>
+                        <td><?php echo htmlspecialchars($oldPrice); ?>$</td>
                         <td><?php echo htmlspecialchars($indicator['date']); ?></td>
-                        <td> <?php echo htmlspecialchars($currentPrice); ?>$</td>
+                        <td data-crypto="<?php echo $crypto; ?>"><?php echo htmlspecialchars($currentPrice); ?>$</td>
                         <td id="evolution-<?php echo $crypto; ?>" data-old="<?php echo $oldPrice; ?>" style="color:<?php echo $color; ?>">
                             <?php echo ($difference !== 'N/A' ? htmlspecialchars($difference) . " $" : 'N/A'); ?>
                         </td>
@@ -158,48 +137,27 @@ if (isset($_SESSION['id_u'])) {
             </tbody>
         </table>
     <?php endif; ?>
-
 </div>
 
-<!-- Script Bootstrap et FontAwesome pour les icônes -->
+<!-- Bootstrap & FontAwesome -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<!--Script actualisation -->
-<script>
-    setInterval(() => {
-        fetch('consume_price.php')
-            .then(response => response.json())
-            .then(data => {
-                if (data.crypto && data.nouveau_prix) {
-                    const cell = document.getElementById('evolution-' + data.crypto);
-                    if (cell) {
-                        // Supposons que tu stockes l'ancien prix dans un attribut data
-                        const oldPrice = parseFloat(cell.getAttribute('data-old')) || 0;
-                        const newPrice = parseFloat(data.nouveau_prix);
-                        const evolution = (newPrice - oldPrice).toFixed(2);
-                        const color = evolution >= 0 ? 'green' : 'red';
-                        
-                        cell.textContent = evolution + ' $';
-                        cell.style.color = color;
-                    }
-                }
-            })
-            .catch(err => console.error("Erreur AJAX:", err));
-    }, 5000); // mise à jour toutes les 5 secondes
-</script>
+
+<!-- Actualisation en temps réel -->
+<script src="js/reload_page.js"></script>
 
 </body>
 </html>
 
 <?php
-} catch (Exception $e) {
-    echo "Erreur: " . $e->getMessage();
-}
-
+    } catch (Exception $e) {
+        echo "Erreur: " . $e->getMessage();
+    }
 } else {
     header('Location: log-in.php');
     exit();
 }
 ?>
+

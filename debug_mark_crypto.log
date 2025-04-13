@@ -144,3 +144,39 @@ Array
     [qte] => 
     [type] => Vente
 )
+Array
+(
+    [crypto] => quant-network
+    [price] => 65.66
+    [date] => 2025-04-12 11:05:19
+    [id_u] => 2
+    [qte] => 1
+    [type] => Achat
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 83432
+    [date] => 2025-04-12 11:05:29
+    [id_u] => 2
+    [qte] => 1
+    [type] => Achat
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 84428
+    [date] => 2025-04-12 14:05:56
+    [id_u] => 2
+    [qte] => 1
+    [type] => Achat
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 85474
+    [date] => 2025-04-12 22:46:04
+    [id_u] => 2
+    [qte] => 2
+    [type] => Achat
+)

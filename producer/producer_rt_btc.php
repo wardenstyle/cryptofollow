@@ -1,8 +1,9 @@
 <?php
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+$config = include '../config.php';
 
 // Récupération du prix via API CoinGecko
 $apiUrl = "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=2";
@@ -16,7 +17,12 @@ $timestamp = $dernier[0]; // en millisecondes
 $price = $dernier[1];
 
 // Connexion RabbitMQ
-$connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
+$connection = new AMQPStreamConnection(
+    $config['rabbitmq']['host'],
+    $config['rabbitmq']['port'],
+    $config['rabbitmq']['user'],
+    $config['rabbitmq']['pass']
+);
 $channel = $connection->channel();
 $channel->queue_declare('crypto_prices', false, true, false, false);
 
