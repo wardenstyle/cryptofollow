@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cryptoChartCanvas = document.getElementById("cryptoChart");
     const cryptoBarChartCanvas = document.getElementById("cryptoBarChart");
     const displayButton = document.getElementById("display");
+    const cryptoNameDisplay = document.getElementById("crypto_name");
 
     let myChart = null; // graphique des indicateurs
     let myBarChart = null; // graphique des quantités
@@ -35,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <thead>
                         <tr>
                             <th style="display:none">#</th>
-                            <th>Crypto</th>
+  
                             <th>Valeur</th>
                             <th>Date</th>
                             <th>Type</th>
@@ -47,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         ${data.map(indicator => `
                             <tr data-id="${indicator.id}">
                                 <td style="display:none">${indicator.id}</td>
-                                <td>${indicator.crypto}</td>
+
                                 <td>${indicator.price}</td>
                                 <td>${indicator.date}</td>
                                 <td>${indicator.type}</td>
@@ -56,11 +57,15 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <input type="number" class="quantity-input form-control" value="${indicator.qte}" style="display:none; width: 70px;">
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-warning edit-indicator">
+                                    <button class="btn btn-sm btn-warning edit-indicator" title="Modifier">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-danger delete-indicator">
+                                    <button class="btn btn-sm btn-danger delete-indicator" title="Supprimer">
                                         <i class="fas fa-trash"></i>
+                                    </button>
+
+                                    <button class="btn btn-primary" title="Créer une alerte">
+                                        <i class="fas fa-bell"></i>
                                     </button>
                                 </td>
                             </tr>

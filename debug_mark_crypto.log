@@ -180,3 +180,21 @@ Array
     [qte] => 2
     [type] => Achat
 )
+Array
+(
+    [crypto] => bitcoin
+    [price] => 85089
+    [date] => 2025-04-14 13:23:52
+    [id_u] => 1
+    [qte] => 
+    [type] => Achat
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => -
+    [date] => 2025-04-14 13:28:06
+    [id_u] => 1
+    [qte] => 
+    [type] => Achat
+)

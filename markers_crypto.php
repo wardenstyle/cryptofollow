@@ -51,7 +51,7 @@ if (isset($_SESSION['id_u'])) {
                         </select>
 
                         <div class="d-flex justify-content-between align-items-center mt-3 mb-2">
-                            <h5 class="mb-0">Indicateurs:</h5>
+                            <h5 class="mb-0">Indicateurs enregistrés pour le <span id="crypto_name"></span></h5>
                                 <div class="d-flex gap-2">
                                     <!-- <a href="live.php?" class="btn btn-primary" id="live" type="button"><i class="fas fa-arrow-right"></i>|En direct</a> -->
                                     <a href="compare_indicators.php?" class="btn btn-primary" id="compare" type="button"><i class="fas fa-exchange-alt"></i>|Comparateur</a>
@@ -72,6 +72,7 @@ if (isset($_SESSION['id_u'])) {
 
 <script src="scripts-loader.js"></script>
 <script src="js/fetch-indicators.js"></script>
+<script src="js/markers_crypto.js"></script>
 
 </body>
 

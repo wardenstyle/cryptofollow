@@ -34,6 +34,7 @@ include('nav.php');
                     <button class="btn btn-primary w-100" type="submit">Obtenir le prix</button>
                 </form>
                 <h3 class="mt-3">Prix actuel : <span id="cryptoPrice">-</span> USD</h3>
+            <p>Ma crypto n'est pas dans la liste, ajoutez-la <a href="#">ici</a></p>
             </div>
 
             <?php if(!isset($_SESSION['id_u'])) { ?>
@@ -81,7 +82,7 @@ include('nav.php');
                         </div>
 
                         <div class="flex-fill">
-                            <label for="qte" class="form-label">Quantité</label>
+                            <label for="qte" class="form-label">Quantité <i>(facultatif)</i></label>
                             <input type="text" name="qte" class="form-control" name="qte" id="qte">
                         </div>
                     </div>
