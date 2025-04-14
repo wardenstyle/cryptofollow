@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                         <i class="fas fa-trash"></i>
                                     </button>
 
-                                    <button class="btn btn-primary" title="Créer une alerte">
-                                        <i class="fas fa-bell"></i>
+                                    <button class="btn btn-sm btn-primary create-alert-btn" data-id="${indicator.id}" type="button" title="Créer une alerte">
+                                    <i class="fas fa-bell"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -166,6 +166,28 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+
+    // redirection vers la page de création d'alerte 
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.create-alert-btn')) {
+          const btn = e.target.closest('.create-alert-btn');
+          const id = btn.dataset.id;
+      
+          // Crée dynamiquement un formulaire POST
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = 'create_alert.php';
+      
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = 'indicator_id';
+          input.value = id;
+      
+          form.appendChild(input);
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
 
     // Fonction pour charger et afficher le graphique Chart.js
     function loadChart(crypto) {
