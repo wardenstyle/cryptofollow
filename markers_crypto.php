@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 include('head.php');
-include('nav.php');
+include('nav-bar.php');
 
 if (isset($_SESSION['id_u'])) {
 
