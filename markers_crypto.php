@@ -13,7 +13,6 @@ include('nav.php');
 if (isset($_SESSION['id_u'])) {
 
     require 'vendor/autoload.php';
-    require 'config.php';
     $config = include 'config.php';
 
     // Vérification de la configuration

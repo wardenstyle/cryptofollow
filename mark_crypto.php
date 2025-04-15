@@ -13,8 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
 if(isset($_SESSION['id_u'])){
 
     require 'vendor/autoload.php';
-    require 'config.php';
-    $config = include ('config.php');
+    $config = include 'config.php';
 
     //Vérification de la configuration
     if (!isset($config) || !is_array($config)) {
