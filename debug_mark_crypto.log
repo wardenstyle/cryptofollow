@@ -198,3 +198,21 @@ Array
     [qte] => 
     [type] => Achat
 )
+Array
+(
+    [crypto] => bitcoin
+    [price] => 84065
+    [date] => 2025-04-15 22:05:17
+    [id_u] => 1
+    [qte] => 0.005
+    [type] => Achat
+)
+Array
+(
+    [crypto] => bitcoin
+    [price] => 84057
+    [date] => 2025-04-15 22:07:32
+    [id_u] => 1
+    [qte] => 0.002
+    [type] => Achat
+)

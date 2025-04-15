@@ -29,6 +29,19 @@ $params = [
     ':percentage_' => $percentage
 ];
 
+// Vérifier le nombre d'alertes existantes pour cet utilisateur et cet indicateur
+$checkSql = "SELECT COUNT(*) FROM alerts WHERE id_indicator = :indicator_id";
+$checkStmt = $pdo->prepare($checkSql);
+$checkStmt->execute([
+    ':indicator_id' => $indicator_id
+]);
+$alertCount = $checkStmt->fetchColumn();
+
+if ($alertCount >= 5) {
+    echo "Vous avez déjà enregistré 5 alertes pour cet indicateur.";
+    exit;
+}
+
 try {
     request_execute($pdo, $sql, $params);
     echo "Alerte de type <strong>$alert_type</strong> enregistrée avec succès.";

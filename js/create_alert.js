@@ -39,6 +39,12 @@ document.getElementById('alertForm').addEventListener('submit', function (e) {
     .then(response => response.text())
     .then(data => {
         document.getElementById('alertResponse').innerHTML = `<div class="alert alert-info">${data}</div>`;
+        // rechargement de la page après 3 secondes
+        if (!data.includes("Erreur") && !data.includes("déjà enregistré 5 alertes")) {
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        }
     })
     .catch(error => {
         document.getElementById('alertResponse').innerHTML = `<div class="alert alert-danger">Erreur : ${error}</div>`;
