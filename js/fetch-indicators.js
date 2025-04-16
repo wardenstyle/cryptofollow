@@ -10,6 +10,16 @@ document.addEventListener("DOMContentLoaded", function () {
     let myBarChart = null; // graphique des quantités
     let isChartDisplayed = false; // Pour basculer entre le tableau et le graphique
 
+    //Sauvegarder le choix du select à chaque changement de page
+    const savedCrypto = localStorage.getItem("selectedCrypto");
+    if (savedCrypto) {
+        cryptoSelect.value = savedCrypto;
+    }
+
+    cryptoSelect.addEventListener("change", function () {
+        localStorage.setItem("selectedCrypto", this.value);
+    });
+
     // Fonction pour charger les indicateurs sous forme de tableau
     function loadIndicators(crypto, type = 'all') {
         fetch(`fetch_indicators.php?crypto=${encodeURIComponent(crypto)}&type=${type}`)
