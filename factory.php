@@ -66,7 +66,7 @@ function verifyPostv2(...$requiredFields) {
 //vérifier les données GET
 function verifyGet(...$champs) {
     foreach ($champs as $champ) {
-        if (!isset($_GET[$champ])) {
+        if (!isset($_GET[$champ])|| empty($_GET[$champ])) {
             echo json_encode(["success" => false, "error" => "Donnée GET manquante : $champ"]);
             exit;
         }

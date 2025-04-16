@@ -46,11 +46,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     <thead>
                         <tr>
                             <th style="display:none">#</th>
-  
                             <th>Valeur</th>
                             <th>Date</th>
                             <th>Type</th>
                             <th>Quantité</th>
+                            <th>Alertes</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         ${data.map(indicator => `
                             <tr data-id="${indicator.id}">
                                 <td style="display:none">${indicator.id}</td>
-
                                 <td>${indicator.price}</td>
                                 <td>${indicator.date}</td>
                                 <td>${indicator.type}</td>
@@ -67,15 +66,17 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <input type="number" class="quantity-input form-control" value="${indicator.qte}" style="display:none; width: 70px;">
                                 </td>
                                 <td>
+                                    <span class="badge bg-info" title="nombre d'alerte active">${indicator.alert_count || 0}</span>
+                                </td>
+                                <td>
                                     <button class="btn btn-sm btn-warning edit-indicator" title="Modifier">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button class="btn btn-sm btn-danger delete-indicator" title="Supprimer">
                                         <i class="fas fa-trash"></i>
                                     </button>
-
                                     <button class="btn btn-sm btn-primary create-alert-btn" data-id="${indicator.id}" type="button" title="Créer une alerte">
-                                    <i class="fas fa-bell"></i>
+                                        <i class="fas fa-bell"></i>
                                     </button>
                                 </td>
                             </tr>
