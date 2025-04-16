@@ -96,7 +96,7 @@ if (isset($_SESSION['id_u'])) {
 
             <tbody>
             <?php foreach ($alerts as $alert) {?>
-                <tr>
+                <tr data-alert-id="<?= htmlspecialchars($alert['id']) ?>">
                     <td><?php echo htmlspecialchars($alert['target_price']);?></td>
                     <td><?php echo htmlspecialchars($alert['percentage_']);?></td>
                     <td><?php echo htmlspecialchars($alert['type']);?></td>
@@ -117,3 +117,4 @@ if (isset($_SESSION['id_u'])) {
 
 </div>
 <script src="js/create_alert.js"></script>
+<script src="js/delete_alert.js"></script>
