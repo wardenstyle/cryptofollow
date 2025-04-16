@@ -34,6 +34,7 @@ CREATE TABLE alerts (
   email VARCHAR(255) NOT NULL,
   percentage_ VARCHAR(4) NOT NULL,
   created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  sent_at DATETIME DEFAULT NULL,
   PRIMARY KEY (id),
   KEY id_indicator (id_indicator),
   CONSTRAINT fk_alerts_indicators FOREIGN KEY (id_indicator)
@@ -77,8 +78,8 @@ INSERT INTO indicators (id, crypto, price, date, id_u, qte, type) VALUES
 (31, 'bitcoin', 83250.00000, '2025-04-13 21:08:40', 3, 0.00500, 'Achat');
 
 -- Données pour `alerts`
-INSERT INTO alerts (id, id_indicator, target_price, type, content, email, percentage_, created_at) VALUES
-(1, 25, 0.84, 'Vente', 'Il est temps de vendre', 'suivi@fortil.group', '20', '2025-04-15 18:21:44');
+INSERT INTO alerts (id, id_indicator, target_price, type, content, email, percentage_, created_at, sent_at) VALUES
+(1, 25, 0.84, 'Vente', 'Il est temps de vendre', 'suivi@fortil.group', '20', '2025-04-15 18:21:44', NULL);
 
 -- Auto-incrément
 ALTER TABLE alerts AUTO_INCREMENT = 2;

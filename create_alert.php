@@ -1,18 +1,17 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once 'factory.php';
+
+existeSession();
 
 if (isset($_SESSION['id_u'])) {
 
     include('head.php');
     include('nav-bar.php');
-    require_once 'factory.php';
+    
     $config = loadConfiguration();
     $pdo = connexionPDO($config);
     verifyPostv2('indicator_id');
-
     // restitution de l'indicateur
     $id_indicator = $_POST['indicator_id'];
     $sql = "SELECT * FROM indicators WHERE id = :id";
