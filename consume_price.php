@@ -16,9 +16,9 @@ try {
     );
     $channel = $connection->channel();
 
-    $channel->queue_declare('prix_crypto', false, false, false, false);
+    $channel->queue_declare('crypto_prices', false, true, false, false);
 
-    $msg = $channel->basic_get('prix_crypto');
+    $msg = $channel->basic_get('crypto_prices');
     if ($msg) {
         $data = json_decode($msg->body, true);
         echo json_encode($data);

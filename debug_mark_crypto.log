@@ -216,3 +216,12 @@ Array
     [qte] => 0.002
     [type] => Achat
 )
+Array
+(
+    [crypto] => injective-protocol
+    [price] => 6.68
+    [date] => 2025-04-16 18:58:48
+    [id_u] => 1
+    [qte] => 1
+    [type] => Achat
+)

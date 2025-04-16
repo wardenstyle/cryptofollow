@@ -10,7 +10,7 @@ existeSession();
 $config = loadConfiguration();
 $pdo = connexionPDO($config);
 
-// Restitution des alerts des utilsateurs
+// Récupérer les alertes des utilisateurs
 $alerts = request_execute($pdo, "SELECT a.*, i.crypto 
     FROM alerts a 
     JOIN indicators i ON a.id_indicator = i.id 
@@ -18,7 +18,7 @@ $alerts = request_execute($pdo, "SELECT a.*, i.crypto
 
 $alertsGrouped = [];
 
-// Regrouper les cryptos pour optimiser les appels à l'API
+// Regrouper les alertes par crypto-monnaie
 foreach ($alerts as $alert) {
     $crypto = strtolower($alert['crypto']);
     if (!isset($alertsGrouped[$crypto])) {
@@ -27,20 +27,30 @@ foreach ($alerts as $alert) {
     $alertsGrouped[$crypto][] = $alert;
 }
 
-// regroupement des cryptos
+// Regrouper les cryptos pour récupérer les prix en une seule requête
 foreach ($alertsGrouped as $crypto => $alertsList) {
     $url = "https://api.coingecko.com/api/v3/simple/price?ids={$crypto}&vs_currencies=usd";
     $response = file_get_contents($url);
+    
+    if ($response === false) {
+        echo "Erreur de récupération des prix pour {$crypto}\n";
+        continue;
+    }
+    
     $data = json_decode($response, true);
 
     if (!isset($data[$crypto]['usd'])) {
+        echo "Prix non disponible pour {$crypto}\n";
         continue;
     }
+
     $currentPrice = $data[$crypto]['usd'];
 
+    // Vérifier chaque alerte pour cette crypto-monnaie
     foreach ($alertsList as $alert) {
         $shouldSend = false;
 
+        // Déclenchement de l'alerte selon le type (achat ou vente)
         if (strtolower($alert['type']) === 'achat' && $currentPrice <= $alert['target_price']) {
             $shouldSend = true;
         }
@@ -50,8 +60,7 @@ foreach ($alertsGrouped as $crypto => $alertsList) {
         }
 
         if ($shouldSend) {
-            // Envoi email
-            $mailConfig = include 'mail_config.php';
+            // Envoi de l'email
             $mail = new PHPMailer(true);
             try {
                 $mail->isSMTP();
@@ -70,7 +79,7 @@ foreach ($alertsGrouped as $crypto => $alertsList) {
 
                 $mail->send();
 
-                // Marquer comme envoyé
+                // Mettre à jour la base de données pour marquer l'alerte comme envoyée
                 request_prepared($pdo, "UPDATE alerts SET sent_at = NOW() WHERE id = :id", [":id" => $alert['id']]);
             } catch (Exception $e) {
                 error_log("Erreur d'envoi : " . $mail->ErrorInfo);
@@ -78,8 +87,7 @@ foreach ($alertsGrouped as $crypto => $alertsList) {
         }
     }
 }
+
 echo "Script exécuté à " . date('Y-m-d H:i:s') . "\n";
-var_dump($alerts);
-var_dump($alertsGrouped);
-var_dump($shouldSend);
 echo "Fin du traitement à " . date('Y-m-d H:i:s') . "\n";
+?>
