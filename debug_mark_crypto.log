@@ -225,3 +225,48 @@ Array
     [qte] => 1
     [type] => Achat
 )
+Array
+(
+    [crypto] => doge
+    [price] => 0.00014655
+    [date] => 2025-04-18 16:16:42
+    [id_u] => 1
+    [qte] => 
+    [type] => Achat
+)
+Array
+(
+    [crypto] => dogecoin
+    [price] => 0.156723
+    [date] => 2025-04-18 16:19:59
+    [id_u] => 1
+    [qte] => 1
+    [type] => Achat
+)
+Array
+(
+    [crypto] => doge
+    [price] => -
+    [date] => 2025-04-18 18:09:14
+    [id_u] => 1
+    [qte] => 
+    [type] => Achat
+)
+Array
+(
+    [crypto] => ethereum
+    [price] => 1590.75
+    [date] => 2025-04-18 18:17:55
+    [id_u] => 1
+    [qte] => 1
+    [type] => Achat
+)
+Array
+(
+    [crypto] => ethereum
+    [price] => 1591.1
+    [date] => 2025-04-18 18:20:37
+    [id_u] => 1
+    [qte] => 1
+    [type] => Achat
+)

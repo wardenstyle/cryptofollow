@@ -1,19 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
     const markButton = document.getElementById("markButton");
+    const fillButton = document.getElementById("fillButton");
     const cryptoInput = document.getElementById("crypto");
     const priceInput = document.getElementById("price");
     const dateInput = document.getElementById("date");
 
     if (markButton) {
         markButton.addEventListener("click", function () {
-            // Vérifie si l'utilisateur est connecté
             const userId = document.getElementById("id_u")?.value;
             if (!userId) {
                 alert("Vous devez être connecté pour marquer un indicateur.");
                 return;
             }
 
-            // Création et affichage de l'étape 3
             let step3 = document.getElementById("step3");
             if (!step3) {
                 step3 = document.createElement("div");
@@ -27,15 +26,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.querySelector(".row.g-5").appendChild(step3);
             }
         });
+
+        markButton.disabled = true;
     }
-    markButton.disabled = true;
-    // Quand on clique sur "Remplir", on remplit la date et active "Marquer"
-    fillButton.addEventListener("click", function () {
-        const currentDate = new Date();
-        const formattedDate = currentDate.toISOString().slice(0, 19).replace("T", " ");
-        dateInput.value = formattedDate;
-        
-        // Activer le bouton "Marquer"
-        markButton.disabled = false;
-    });
+
+    if (fillButton && markButton) {
+        fillButton.addEventListener("click", function () {
+            const currentDate = new Date();
+            const formattedDate = currentDate.toISOString().slice(0, 19).replace("T", " ");
+            dateInput.value = formattedDate;
+
+            // Activer le bouton "Marquer"
+            markButton.disabled = false;
+        });
+    }
 });

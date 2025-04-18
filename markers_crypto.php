@@ -2,32 +2,20 @@
 <script src="charts/moment.js"></script>
 <script src="charts/chartjs-adapter-moment.js"></script>
 <?php
+require_once 'factory.php';
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+existeSession();
+
 
 include('head.php');
 include('nav-bar.php');
 
 if (isset($_SESSION['id_u'])) {
 
-    require 'vendor/autoload.php';
-    $config = include 'config.php';
-
-    // Vérification de la configuration
-    if (!isset($config) || !is_array($config)) {
-        echo json_encode(["success" => false, "error" => "Erreur : Configuration non définie."]);
-        exit;
-    }
-
-    try {
-        $pdo = new PDO("mysql:host={$config['db']['host']};dbname={$config['db']['dbname']};charset=utf8", $config['db']['user'], $config['db']['pass'], [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
-    } catch (PDOException $e) {
-        echo json_encode(["success" => false, "error" => "Erreur serveur : " . $e->getMessage()]);
-    }
+    $config = loadConfiguration();
+    $pdo = connexionPDO($config);
+    //Data: nos crypto
+    $cryptos = request_execute($pdo, "SELECT id_api FROM crypto");
 
 ?>
 
@@ -43,10 +31,11 @@ if (isset($_SESSION['id_u'])) {
                 <form id="cryptoForm">
 
                         <select class="form-select" id="cryptoSelect" name="cryptoSelect">
-                            <option value="bitcoin">Bitcoin</option>
-                            <option value="theta-token">Theta Token</option>
-                            <option value="quant-network">Quant Network</option>
-                            <option value="injective-protocol">Injective Protocol</option>
+                        <?php foreach ($cryptos as $crypto) { ?>
+                                <option value="<?php echo htmlspecialchars($crypto['id_api']); ?>">
+                                    <?php echo htmlspecialchars(ucwords(str_replace('-', ' ', $crypto['id_api']))); ?>
+                                </option>
+                            <?php } ?>
                         </select>
 
                         <div class="d-flex justify-content-between align-items-center mt-3 mb-2">

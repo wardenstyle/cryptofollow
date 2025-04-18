@@ -29,15 +29,37 @@ $(document).ready(function () {
         isRequestPending = true;
 
         $.ajax({
-            url: 'create_crypto.php', // à remplacer par create_crypto.php quand tout est ok
+            url: 'create_crypto.php',
             method: 'POST',
             dataType: 'json',
-            data: { id_api: idApi },
+            data: {
+                id_api: idApi,
+                secret: 'ma-super-cle-ultrasecrete-98462' // clé
+            },
             success: function (response) {
                 console.log("Réponse du serveur:", response);  // Debug
 
                 if (response.success) {
                     $('#MsgInfo').text(response.message || 'Crypto ajoutée avec succès !');
+
+                    // Création du producer après succès
+                    $.ajax({
+                        url: 'register_crypto.php',
+                        method: 'POST',
+                        data: {
+                            crypto: idApi,
+                            secret: 'ma-super-cle-ultrasecrete-98462' // clé
+                        },
+                        success: function (r2) {
+                            $('#statusMsg').text('Producer créé : ' + r2);
+                            setTimeout(function() {
+                                location.reload();  // Recharge la page
+                            }, 2000);
+                        },
+                        error: function () {
+                            $('#statusMsg').text('Erreur lors de la création du producer.');
+                        }
+                    });
                 } else {
                     $('#MsgInfo').text(response.error || response.message || 'Crypto introuvable sur CoinGecko.');
                 }
@@ -66,7 +88,7 @@ $(document).ready(function () {
             } else {
                 clearInterval(cooldownInterval);
                 cooldownActive = false;
-                $('#statusMsg').text('🔁 Vous pouvez relancer une vérification.');
+                $('#statusMsg').text(' Vous pouvez relancer une vérification.');
             }
         }, 1000);
     }

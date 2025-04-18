@@ -31,12 +31,13 @@
 
 $crypto = $_GET['crypto'] ?? 'bitcoin';
 
-$producers = [
-    'bitcoin' => 'producer_rt_btc.php',
-    'theta-token' => 'producer_rt_theta.php',
-    'injective-protocol'=> 'producer_rt_inj.php',
-    'quant-network'=>'producer_rt_qnt.php'
-];
+// $producers = [
+//     'bitcoin' => 'producer_rt_btc.php',
+//     'theta-token' => 'producer_rt_theta.php',
+//     'injective-protocol'=> 'producer_rt_inj.php',
+//     'quant-network'=>'producer_rt_qnt.php'
+// ];
+$producers = include 'producer_crypto.php';
 
 if (!array_key_exists($crypto, $producers)) {
     http_response_code(400);
@@ -52,5 +53,19 @@ echo "Lecture lancé pour $crypto";
 
 // Sauvegarde du PID dans un fichier
 //file_put_contents("pids/producer_{$crypto}.pid", $pid);
+
+// $crypto = $_GET['crypto'] ?? 'bitcoin';
+
+// // Protection basique
+// $crypto = preg_replace('/[^a-z0-9\-]/', '', strtolower($crypto));
+
+// // Le chemin vers le producteur unique
+// $script = 'producer_evolution.php';
+
+// // Exécute le script en arrière-plan avec l’argument GET simulé
+// $cmd = "start /B php " . escapeshellarg($script) . " " . escapeshellarg($crypto);
+// pclose(popen($cmd, "r"));
+
+// echo "Lecture lancée pour $crypto";
 
 
