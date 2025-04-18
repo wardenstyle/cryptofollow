@@ -19,7 +19,7 @@ if (isset($_SESSION['id_u'])) {
     $indicator = request_execute($pdo, $sql, $params, true);
 
     // restitution des alerts
-    $sql1 = "SELECT id, id_indicator, target_price, type, created_at, email, percentage_ FROM alerts WHERE id_indicator = :id";
+    $sql1 = "SELECT id, id_indicator, target_price, type, created_at, email, percentage_, sent_at FROM alerts WHERE id_indicator = :id";
     $params1 = [':id' => $id_indicator];
     $alerts = request_execute($pdo, $sql1, $params1, false);
    //var_dump($alerts);
@@ -89,6 +89,7 @@ if (isset($_SESSION['id_u'])) {
                     <th>%</th>
                     <th>Type d'alerte</th>
                     <th>Email</th>
+                    <th>Notifié le:</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -100,6 +101,7 @@ if (isset($_SESSION['id_u'])) {
                     <td><?php echo htmlspecialchars($alert['percentage_']);?></td>
                     <td><?php echo htmlspecialchars($alert['type']);?></td>
                     <td><?php echo htmlspecialchars($alert['email']);?></td>
+                    <td><?= htmlspecialchars($alert['sent_at'] ?? '-') ?></td>
                     <td>
                     <button class="btn btn-sm btn-danger delete-alert" title="Supprimer">
                         <i class="fas fa-trash"></i>

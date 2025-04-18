@@ -42,6 +42,12 @@ CREATE TABLE alerts (
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Création table `crypto`
+CREATE TABLE crypto (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_api VARCHAR(50) NOT NULL
+);
+
 -- Données pour `users`
 INSERT INTO users (id, email, password) VALUES
 (1, 'admin@allobobo.fr', '$2y$10$5.tEprp1vQxlzT0xydj3ieVBGEWavYFbHIdpT0N8jiomXyAq1jrGS'),
@@ -80,6 +86,13 @@ INSERT INTO indicators (id, crypto, price, date, id_u, qte, type) VALUES
 -- Données pour `alerts`
 INSERT INTO alerts (id, id_indicator, target_price, type, content, email, percentage_, created_at, sent_at) VALUES
 (1, 25, 0.84, 'Vente', 'Il est temps de vendre', 'suivi@fortil.group', '20', '2025-04-15 18:21:44', NULL);
+
+-- Données pour `crypto`
+INSERT INTO crypto (id_api) VALUES 
+('bitcoin'),
+('theta-token'),
+('injective-protocol'),
+('quant-network');
 
 -- Auto-incrément
 ALTER TABLE alerts AUTO_INCREMENT = 2;

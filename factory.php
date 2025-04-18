@@ -1,4 +1,9 @@
 <?php
+// mode debug
+function debug_function() {
+    file_put_contents('log_debug.txt', file_get_contents('php://input'));
+    echo 'mode débuggage activé consultez le fichier log_debug';
+}
 // vérification Ajax utilisateur
 function secureAjaxSession() {
     if (session_status() === PHP_SESSION_NONE) {

@@ -50,6 +50,10 @@
                             <i class="fa fa-check bg-light text-primary btn-sm-square rounded-circle me-3 fw-bold"></i>
                             <span>Obtenir des statistiques précises sur l'évolution de vos crypto-monnaies</span>
                         </div>
+                        <div class="d-flex align-items-center mb-4">
+                            <i class="fa fa-check bg-light text-primary btn-sm-square rounded-circle me-3 fw-bold"></i>
+                            <span>Créer des alertes selon un seuil de prix fixé</span>
+                        </div>
                         <a class="btn btn-primary py-3 px-4" href="price_crypto.php">c'est parti !</a>
                     </div>
                 </div>

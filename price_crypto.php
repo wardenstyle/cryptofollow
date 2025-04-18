@@ -1,16 +1,28 @@
 <?php 
 
-if (session_status() === PHP_SESSION_NONE) {
-	session_start();
-}
-//session_destroy();var_dump($_SESSION);//echo password_hash("bonjour", PASSWORD_DEFAULT);
+require_once('factory.php');
+existeSession();
+
 include('head.php'); 
 include('nav.php');
-//var_dump($_SESSION['id_u']);
+
+$config = loadConfiguration();
+$pdo = connexionPDO($config);
+$cryptos = request_execute($pdo, "SELECT id_api FROM crypto");
+
 ?>
 <script>
     var isLoggedIn = <?php echo isset($_SESSION["id_u"]) ? "true" : "false"; ?>;
 </script>
+
+<style>
+    #MsgInfo {
+    font-size: 14px;
+    color: red;
+    margin-top: 10px;
+    display: inline-block;
+}
+</style>
 
 <body>
 
@@ -25,16 +37,31 @@ include('nav.php');
                 <form id="cryptoForm">
                     <div class="mb-3">
                         <select class="form-select" id="cryptoSelect">
-                            <option value="bitcoin">Bitcoin</option>
-                            <option value="theta-token">Theta Token</option>
-                            <option value="quant-network">Quant Network</option>
-                            <option value="injective-protocol">Injective Protocol</option>
+                        <?php foreach ($cryptos as $crypto) { ?>
+                                <option value="<?php echo htmlspecialchars($crypto['id_api']); ?>">
+                                    <?php echo htmlspecialchars(ucwords(str_replace('-', ' ', $crypto['id_api']))); ?>
+                                </option>
+                            <?php } ?>
                         </select>
                     </div>
                     <button class="btn btn-primary w-100" type="submit">Obtenir le prix</button>
                 </form>
                 <h3 class="mt-3">Prix actuel : <span id="cryptoPrice">-</span> USD</h3>
-            <p>Ma crypto n'est pas dans la liste, ajoutez-la <a href="#">ici</a></p>
+                <p>Ma crypto n'est pas dans la liste, ajoutez-la <a href="#" id="toggleAddForm">ici</a></p>
+                <div id="addCryptoForm" style="display: none;">
+                    <form id="newCryptoForm">
+                        <label for="newCrypto">ID API de la crypto </label>
+                        <input class="form-control "type="text" id="newCrypto" name="id_api" required>
+                        <button class="btn btn-primary" type="submit">Ajouter</button>
+                        <div id="MsgInfo" style="margin-left: 20px; display: inline-block;"></div>
+                        <div id="statusMsg" class="mt-2 text-muted"></div>
+                        <div id="spinnerLoader" class="text-center my-2" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Chargement...</span>
+                        </div>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <?php if(!isset($_SESSION['id_u'])) { ?>
@@ -104,9 +131,13 @@ include('nav.php');
         </div>
     </div>
 </div>
-<script src="js/connexion.js"></script>
-<script src="js/price_crypto.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="scripts-loader.js"></script> 
+<script src="js/connexion.js"></script>
+<script src="js/crypto_add.js"></script>
+<script src="js/price_crypto.js"></script>
+
 </body>
 
 <script src="js/marquer.js"></script>
