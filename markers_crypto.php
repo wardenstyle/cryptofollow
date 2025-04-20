@@ -6,7 +6,6 @@ require_once 'factory.php';
 
 existeSession();
 
-
 include('head.php');
 include('nav-bar.php');
 
@@ -22,6 +21,12 @@ if (isset($_SESSION['id_u'])) {
     WHERE i.id_u = :id_u
     ORDER BY c.id_api ASC
 ", [':id_u' => $_SESSION['id_u']]);
+
+    // Redirection si pas d'indicateur
+    if (empty($cryptos)) {
+        header('Location: price_crypto.php');
+        exit();
+    }
 
 ?>
 
