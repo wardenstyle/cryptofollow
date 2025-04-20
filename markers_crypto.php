@@ -14,8 +14,14 @@ if (isset($_SESSION['id_u'])) {
 
     $config = loadConfiguration();
     $pdo = connexionPDO($config);
-    //Data: nos crypto
-    $cryptos = request_execute($pdo, "SELECT id_api FROM crypto");
+    //Data: nos crypto (remarque: on compare un id avec le nom de la crypto pour la jointure avec COLLATE)
+    $cryptos = request_execute($pdo, "
+    SELECT DISTINCT c.id_api
+    FROM crypto c
+    INNER JOIN indicators i ON i.crypto COLLATE utf8mb4_general_ci = c.id_api COLLATE utf8mb4_general_ci
+    WHERE i.id_u = :id_u
+    ORDER BY c.id_api ASC
+", [':id_u' => $_SESSION['id_u']]);
 
 ?>
 

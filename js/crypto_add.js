@@ -80,11 +80,11 @@ $(document).ready(function () {
         cooldownActive = true;
         cooldownSeconds = 5;
 
-        $('#statusMsg').text(`Cooldown : ${cooldownSeconds}s`);
+        $('#statusMsg').text(`Compte à rebours : ${cooldownSeconds}s`);
         cooldownInterval = setInterval(() => {
             cooldownSeconds--;
             if (cooldownSeconds > 0) {
-                $('#statusMsg').text(`Cooldown : ${cooldownSeconds}s`);
+                $('#statusMsg').text(`Compte à rebours : ${cooldownSeconds}s`);
             } else {
                 clearInterval(cooldownInterval);
                 cooldownActive = false;
