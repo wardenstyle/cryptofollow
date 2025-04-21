@@ -34,7 +34,7 @@
                         <h1 class="display-6">Une mission, Un objectif</h1>
                         <p class="text-primary fs-5 mb-4">Vous aidez à comprendre le marché</p>
                         <p>CryptoFollow vous propose de suivre l'évolution de votre crypto-monnaie à l'aide d'indicateur. </p>
-                        <p>3 fonctionnalités:</p>
+                        <p>4 fonctionnalités:</p>
                         <div class="d-flex align-items-center mb-2">
                             <i class="fa fa-check bg-light text-primary btn-sm-square rounded-circle me-3 fw-bold"></i>
                             <span>Restituer la valeur en temps réel</span>
@@ -64,7 +64,7 @@
         <div class="container">
             <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <h1 class="display-6">Pourquoi nous ?</h1>
-                <p class="text-primary fs-5 mb-5">Notre confiance, Votre satisfaction</p>
+                <p class="text-primary fs-5 mb-5">Votre confiance, Notre satisfaction</p>
             </div>
             <div class="row g-5">
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
