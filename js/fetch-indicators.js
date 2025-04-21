@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             label: "Vente",
                             data: ventes,
                             type: "scatter",
-                            backgroundColor: "red",
+                            backgroundColor: "#B71C1C",
                             pointBorderColor: "black",
                             pointRadius: 6,
                             pointHoverRadius: 8
@@ -344,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     {
                                         label: "Ventes",
                                         data: venteData,
-                                        backgroundColor: "red"
+                                        backgroundColor: "#B71C1C"
                                     }
                                 ]
                             },
@@ -442,7 +442,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     {
                         label: "Ventes",
                         data: venteData,
-                        backgroundColor: "red"
+                        backgroundColor: "#B71C1C"
                     }
                 ]
             },

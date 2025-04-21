@@ -288,3 +288,39 @@ Array
     [qte] => 1
     [type] => Achat
 )
+Array
+(
+    [crypto] => bitcoin
+    [price] => 86947
+    [date] => 2025-04-21 13:19:11
+    [id_u] => 1
+    [qte] => 1
+    [type] => Achat
+)
+Array
+(
+    [crypto] => theta-token
+    [price] => 0.661298
+    [date] => 2025-04-21 13:19:28
+    [id_u] => 1
+    [qte] => 10
+    [type] => Achat
+)
+Array
+(
+    [crypto] => theta-token
+    [price] => 0.761298
+    [date] => 2025-03-21 13:20:19
+    [id_u] => 1
+    [qte] => 40
+    [type] => Achat
+)
+Array
+(
+    [crypto] => theta-token
+    [price] => 0.960225
+    [date] => 2025-02-21 13:23:00
+    [id_u] => 1
+    [qte] => 50
+    [type] => Achat
+)
