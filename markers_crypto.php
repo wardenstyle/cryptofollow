@@ -51,14 +51,17 @@ if (isset($_SESSION['id_u'])) {
 
                         <div class="d-flex justify-content-between align-items-center mt-3 mb-2">
                             <h5 class="mb-0">Indicateurs enregistrés pour le <span id="crypto_name"></span></h5>
-                                <div class="d-flex gap-2">
-                                    <!-- <a href="live.php?" class="btn btn-primary" id="live" type="button"><i class="fas fa-arrow-right"></i>|En direct</a> -->
-                                    <a href="compare_indicators.php?" class="btn btn-primary" id="compare" type="button"><i class="fas fa-exchange-alt"></i>|Comparateur</a>
-                                    <button class="btn btn-primary" id="display" type="button"><i class="fas fa-chart-line"></i>|Graphique</button>
-                                    <button class="btn btn-success" id="btnAchat" type="button">Achats</button>
-                                    <button class="btn btn-danger" id="btnVente" type="button">Ventes</button>
-                                    <button class="btn btn-secondary" id="btnTout" type="button">Tout</button>
-                                </div>
+                            <div class="d-flex gap-2 flex-wrap btn-group-mobile">
+                                <a href="compare_indicators.php?" class="btn btn-primary" id="compare" type="button" title="Comparer">
+                                    <i class="fas fa-exchange-alt"></i><span> Comparateur</span>
+                                </a>
+                                <button class="btn btn-primary" id="display" type="button" title="Graphique">
+                                    <i class="fas fa-chart-line"></i><span> Graphique</span>
+                                </button>
+                                <button class="btn btn-success" id="btnAchat" type="button">Achats</button>
+                                <button class="btn btn-danger" id="btnVente" type="button">Ventes</button>
+                                <button class="btn btn-secondary" id="btnTout" type="button">Tout</button>
+                            </div>
                         </div>
                     <div id="indicatorsContainer">Sélectionnez une crypto pour voir les indicateurs.</div>
                     <canvas id="cryptoChart" style="display: none; width: 100%; max-height: 400px;"></canvas>
@@ -72,6 +75,8 @@ if (isset($_SESSION['id_u'])) {
 <script src="scripts-loader.js"></script>
 <script src="js/fetch-indicators.js"></script>
 <script src="js/markers_crypto.js"></script>
+<!-- dark mode -->
+<script src="js/dark_mode.js"></script>
 
 </body>
 

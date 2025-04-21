@@ -119,3 +119,4 @@ if (isset($_SESSION['id_u'])) {
 </div>
 <script src="js/create_alert.js"></script>
 <script src="js/delete_alert.js"></script>
+<script src="js/dark_mode.js"></script>

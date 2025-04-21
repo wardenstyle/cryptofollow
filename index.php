@@ -1,11 +1,9 @@
 <?php include('head.php'); ?>
 
 <body>
-    <!-- Spinner Start -->
     <!-- Navbar Start -->
     <?php include('nav.php'); ?>
     <!-- Navbar End -->
-    <!-- Spinner End -->
 
     <!-- Header Start -->
     <div class="container-fluid hero-header bg-light py-5 mb-5">
@@ -23,7 +21,6 @@
         </div>
     </div>
     <!-- Header End -->
-
 
     <!-- content -->
     <div class="container-xxl py-5">
@@ -103,7 +100,6 @@
     </div>
     <!-- Features End -->
 
-
     <!-- Service Start -->
     <div class="container-xxl bg-light py-5 my-5">
         <div class="container py-5">
@@ -144,7 +140,6 @@
     </div>
     <!-- Service End -->
 
-
     <!-- Roadmap Start -->
     <div class="container-xxl py-5">
         <div class="container">
@@ -182,12 +177,14 @@
     <?php include('footer.php'); ?>
     <!-- Footer End -->
 
-
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <!-- JavaScript Libraries externe-->
-    <script src="scripts-loader.js"></script>  
+    <script src="scripts-loader.js"></script> 
+    
+    <!-- dark mode -->
+    <script src="js/dark_mode.js"></script>
 </body>
 
 </html>

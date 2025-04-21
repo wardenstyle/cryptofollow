@@ -29,4 +29,6 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/style_mobile.css" rel="stylesheet">
+    <link href="css/style_light_dark.css" rel="stylesheet">
 </head>

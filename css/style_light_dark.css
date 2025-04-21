@@ -1,0 +1,127 @@
+/* Dark mode */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .navbar {
+    background-color: #1e1e1e !important;
+    color: #fff;
+}
+
+body.dark-mode .dropdown-menu,
+body.dark-mode .table,
+body.dark-mode .form-select,
+body.dark-mode .form-control {
+    background-color: #2b2b2b !important;
+    color: #fff !important;
+}
+
+body.dark-mode .btn-outline-secondary {
+    border-color: #fff;
+    color: #fff;
+}
+
+body.dark-mode a,
+body.dark-mode .nav-link {
+    color: #ccc !important;
+}
+
+body.dark-mode .btn-primary,
+body.dark-mode .btn-success,
+body.dark-mode .btn-danger,
+body.dark-mode .btn-secondary {
+    filter: brightness(1.1);
+}
+
+/* Mode sombre : tous les .btn-primary, y compris <a> */
+body.dark-mode .btn-primary,
+body.dark-mode a.btn-primary {
+    background-color: #444 !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .btn-primary:hover,
+body.dark-mode a.btn-primary:hover {
+    background-color: #555 !important;
+    border-color: #555 !important;
+    color: #fff !important;
+}
+
+/* Autres styles de bouton (optionnel) */
+body.dark-mode .btn-secondary,
+body.dark-mode a.btn-secondary {
+    background-color: #666 !important;
+    border-color: #666 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .btn-success,
+body.dark-mode a.btn-success {
+    background-color: #357a38 !important;
+    border-color: #357a38 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .btn-danger,
+body.dark-mode a.btn-danger {
+    background-color: #a33 !important;
+    border-color: #a33 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .hero-header {
+    background-color: #99bde1 !important;
+}
+
+body.dark-mode .hero-header h5,
+body.dark-mode .hero-header h2,
+body.dark-mode .hero-header p {
+    color: #555;
+}
+
+/* Carte de l'indicateur en mode sombre */
+body.dark-mode .card {
+    background-color: #3a3a3a; /* gris légèrement foncé */
+    color: white;
+    border: 1px solid #555;
+}
+
+body.dark-mode .card .card-header {
+    background-color: #444; /* gris plus foncé pour l'entête */
+    color: #fff;
+}
+
+/* Bouton retour */
+body.dark-mode a.btn.btn-primary {
+    background-color: #555 !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+
+/*navi */
+
+body.dark-mode .navbar-toggler {
+    background-color: #ccc; /* gris clair */
+    border: 1px solid #999;
+}
+
+body.dark-mode .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.7%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/** les tableaux */
+
+body.dark-mode table thead th {
+    color: #d3d3d3; /* gris clair */
+    background-color: #2a2a2a; /* fond sombre doux (optionnel) */
+}
+body.dark-mode table {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode table tbody tr {
+    color: #f1f1f1;
+    border-color: #444;
+}

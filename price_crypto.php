@@ -137,6 +137,8 @@ $cryptos = request_execute($pdo, "SELECT id_api FROM crypto");
 <script src="js/connexion.js"></script>
 <script src="js/crypto_add.js"></script>
 <script src="js/price_crypto.js"></script>
+<!-- dark mode -->
+<script src="js/dark_mode.js"></script>
 
 </body>
 

@@ -121,6 +121,8 @@ if (isset($_SESSION['id_u'])) {
 
 <!-- Actualisation en temps réel -->
 <script src="js/reload_page.js"></script>
+<!-- dark mode -->
+<script src="js/dark_mode.js"></script>
 
 </body>
 </html>

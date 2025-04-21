@@ -1,0 +1,26 @@
+@media (max-width: 576px) {
+    /* Cacher les textes des boutons comparateur & graphique */
+    #compare span,
+    #display span {
+      display: none;
+    }
+  
+    /* Empile les boutons sur petites résolutions */
+    .btn-group-mobile {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  
+    /* Rendre le tableau scrollable horizontalement */
+    .table-responsive {
+      overflow-x: auto;
+    }
+  
+    /* Réduction des boutons "action" dans le tableau */
+    td > .btn {
+      margin-bottom: 4px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+    }
+  }
+  

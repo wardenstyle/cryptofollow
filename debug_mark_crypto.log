@@ -279,3 +279,12 @@ Array
     [qte] => 1
     [type] => Achat
 )
+Array
+(
+    [crypto] => bitcoin
+    [price] => 87425
+    [date] => 2025-04-21 10:19:03
+    [id_u] => 1
+    [qte] => 1
+    [type] => Achat
+)

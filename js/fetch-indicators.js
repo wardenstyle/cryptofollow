@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateIndicatorsTable(data) {
         if (data.length > 0) {
             indicatorsContainer.innerHTML = `
+             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -83,6 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         `).join('')}
                     </tbody>
                 </table>
+            </div>
             `;
         } else {
             indicatorsContainer.innerHTML = "<p>Aucun indicateur trouvé pour cette crypto.</p>";

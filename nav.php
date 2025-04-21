@@ -38,5 +38,8 @@ if (session_status() === PHP_SESSION_NONE) {
                 <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-twitter"></i></a>
                 <a class="btn btn-square rounded-circle bg-light text-primary me-0" href=""><i class="fab fa-linkedin-in"></i></a>
             </div>
+            <button id="themeToggle" class="btn btn-outline-secondary ms-3 rounded-circle" title="Mode nuit">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
 </nav>
