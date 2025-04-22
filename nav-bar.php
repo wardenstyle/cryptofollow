@@ -14,6 +14,7 @@
                     <div class="dropdown-menu shadow-sm m-0">
                         <a href="price_crypto.php" class="dropdown-item">Nouveau marqueur</a>
                         <a href="markers_crypto.php" class="dropdown-item">Mes marqueurs</a>
+                        <a href="calendar.php" class="dropdown-item">Calendrier</a>
                     </div>
                 </div>
             <?php } 

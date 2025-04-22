@@ -113,7 +113,7 @@
                         <img class="img-fluid mb-4" src="img/icon-7.png" alt="">
                         <h5 class="mb-3">Consulter</h5>
                         <p>Consulter les cours des crypto-monnaies  </p>
-                        <a href="price_crypto.php">Cliquez ici <i class="fa fa-arrow-right ms-2"></i></a>
+                        <a href="price_crypto.php">Cliquez ici <i class="fa fa-arrow-left ms-2"></i></a>
                     </div>
                 </div>
 
@@ -131,7 +131,7 @@
                         <img class="img-fluid mb-4" src="img/icon-9.png" alt="">
                         <h5 class="mb-3">Visualiser les statistiques</h5>
                         <p>Analyser les pertes/gains </p>
-                        <a href="markers_crypto.php">Cliquez ici <i class="fa fa-arrow-right ms-2"></i></a>
+                        <a href="markers_crypto.php">Cliquez ici <i class="fa fa-arrow-left ms-2"></i></a>
                     </div>
                 </div>
 
@@ -145,7 +145,7 @@
         <div class="container">
             <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <h1 class="display-6">Calendrier</h1>
-                <p class="text-primary fs-5 mb-5">Calendrier sur vos indicateurs</p>
+                <a href="calendar.php" class="text-primary fs-5 mb-5">Calendrier sur vos indicateurs<i class="fa fa-arrow-left ms-2"></i></a>
             </div>
             <div class="owl-carousel roadmap-carousel wow fadeInUp" data-wow-delay="0.1s">
                 <div class="roadmap-item">
