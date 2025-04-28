@@ -33,7 +33,7 @@ if (isset($_SESSION['id_u'])) {
             // indiquer les paramètres du calendrier que l'on veut afficher
             $json = array();
             $json['event_id']=$value['id'];
-            $json['title'] = $value['type'].' de '.number_format($value['qte'], 2).' '.$value['crypto'].' au prixU de : '.number_format($value['price']).' pour un montant total de : '.number_format($value['qte']) * $value['price'] ;
+            $json['title'] = $value['type'].' de '.number_format($value['qte'], 2).' '.$value['crypto'].' au prixU de : '.$value['price'].' pour un montant total de : '.number_format($value['qte'],2) * $value['price'] ;
             $json['start'] = $selectedTime;
             $tab = json_encode($json);
 
