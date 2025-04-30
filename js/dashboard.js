@@ -17,7 +17,7 @@ const myPieChart = new Chart(ctx, {
         }]
     },
     options: {
-        responsive: true,
+        responsive: false,
         plugins: {
             legend: {
                 position: 'bottom',

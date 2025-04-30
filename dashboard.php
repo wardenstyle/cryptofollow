@@ -13,7 +13,7 @@ if (isset($_SESSION['id_u'])) {
 
     $config = loadConfiguration();
     $pdo = connexionPDO($config);
-    //Data: nos crypto (remarque: on compare un id avec le nom de la crypto pour la jointure avec COLLATE)
+    // Data: nos crypto (remarque: on compare un id avec le nom de la crypto pour la jointure avec COLLATE)
     $cryptos = request_execute($pdo, "
     SELECT DISTINCT c.id_api
     FROM crypto c
@@ -37,6 +37,15 @@ if (isset($_SESSION['id_u'])) {
     GROUP BY i.crypto
 ", [':id_u' => $_SESSION['id_u']]);
 
+    // Récupérer les quantités pour chaque crypto
+    $qte_par_crypto = request_execute($pdo, "
+    SELECT i.crypto, SUM(i.qte) AS total_qte
+    FROM indicators i
+    WHERE i.id_u = :id_u
+    GROUP BY i.crypto
+    ORDER BY i.crypto ASC
+", [':id_u' => $_SESSION['id_u']]);
+
     // Calcul du total général
     $total_investi = 0;
     foreach ($repartition as $r) {
@@ -55,12 +64,25 @@ if (isset($_SESSION['id_u'])) {
     $chart_labels = json_encode(array_map(function($c) {
         return ucwords(str_replace('-', ' ', $c));
     }, array_keys($crypto_percentages)));
-
+    // données lisible pour charts
     $chart_data = json_encode(array_values($crypto_percentages));
     echo "
     <input type='hidden' id='chart-data' value='$chart_data'>
     <input type='hidden' id='chart-labels' value='$chart_labels'>
     ";
+
+    // Récupérer les achats/ventes sur le mois pour toutes les cryptomonnaies
+    $data_par_type = request_execute($pdo, "
+    SELECT 
+    DATE_FORMAT(date, '%Y-%m') AS mois,
+    crypto,
+    type,
+    SUM(qte) AS total_qte
+    FROM indicators
+    WHERE id_u = :id_u
+    GROUP BY mois, crypto, type
+    ORDER BY mois ASC, crypto ASC;
+    ", [':id_u' =>$_SESSION['id_u']]);
 
 ?>
 
@@ -68,21 +90,52 @@ if (isset($_SESSION['id_u'])) {
 
 <div class="container-fluid hero-header bg-light">
     <div class="container py-3">
-        <div class="row align-items-center">
+        <div class="row align-items-start">
 
-            <div class="col-lg-12 col-12">
+            <div class="col-lg-6 col-12 mb-4">
                 <h5>Vue d'ensemble</h5>
                 
-                <?php foreach ($cryptos as $crypto) { ?>
-                    <?php echo htmlspecialchars(ucwords(str_replace('-', ' ', $crypto['id_api']))); ?>
-                    
-                <?php }?>
-                <canvas id="myPieChart" style="width:200px; height:200px;"></canvas>
-            </div>            
-        </div>
-    </div>  
-</div>
+                <?php
+                    echo '<table border="1" cellpadding="8" cellspacing="0">';
+                    echo '<thead><tr><th>Cryptomonnaie</th><th>Quantité totale</th></tr></thead>';
+                    echo '<tbody>';
 
+                    foreach ($qte_par_crypto as $crypto) {
+                        $nom = ucwords(str_replace('-', ' ', $crypto['crypto']));
+                        $qte = number_format($crypto['total_qte'], 2);
+                        echo '<tr>';
+                        echo '<td>' . htmlspecialchars($nom) . '</td>';
+                        echo '<td>' . htmlspecialchars($qte) . '</td>';
+                        echo '</tr>';
+                    }
+
+                    echo '</tbody></table>';
+                ?>
+            </div> 
+
+            <div class="col-lg-6 col-12 d-flex justify-content-center align-items-center">
+                <canvas id="myPieChart" style="width:300px; height: 300px;"></canvas>
+            </div>
+            
+        </div>
+    </div> 
+
+    <!-- Ajout du graphique en barres centré -->
+    <div class="d-flex justify-content-center py-4">
+        <canvas id="barChart" style="width:300px; height:300px;"></canvas>
+
+    </div>
+</div>
+        <center>
+        <button class="btn btn-success" onclick="filterType('Achat')">Achat</button>
+        <button class="btn btn-alert" onclick="filterType('Vente')">Vente</button>
+        <button class="btn btn-warning" onclick="filterType('Tous')">Tous</button>
+        </center>
+
+<script> // envoi des données au script chart
+    const barChartDataRaw = <?php echo json_encode($data_par_type); ?>;
+</script>
+<script src="js/dashboard_barchart.js"></script>
 <script src="js/dashboard.js"></script>
 <script src="scripts-loader.js"></script>
 <!-- dark mode -->
@@ -95,4 +148,4 @@ if (isset($_SESSION['id_u'])) {
 } else {
     header('Location: log-in.php');
     exit();
-}
+} 
