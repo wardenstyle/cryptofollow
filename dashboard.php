@@ -122,7 +122,7 @@ if (isset($_SESSION['id_u'])) {
 
     <!-- Ajout du graphique en barres centré -->
     <div class="d-flex justify-content-center py-4">
-        <canvas id="barChart" style="width:300px; height:300px;"></canvas>
+        <canvas id="barChart" style="width:450px; height:450px;"></canvas>
 
     </div>
 </div>

@@ -81,7 +81,7 @@ function renderChart(type = 'Tous') {
             datasets: datasets
         },
         options: {
-            responsive: false,
+            responsive: true,
             plugins: {
                 title: {
                     display: true,
