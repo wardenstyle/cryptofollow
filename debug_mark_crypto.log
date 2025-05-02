@@ -324,3 +324,12 @@ Array
     [qte] => 50
     [type] => Achat
 )
+Array
+(
+    [crypto] => bitcoin
+    [price] => 96317
+    [date] => 2025-05-01 23:43:20
+    [id_u] => 1
+    [qte] => 0.5
+    [type] => Vente
+)

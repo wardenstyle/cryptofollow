@@ -41,7 +41,7 @@ if (isset($_SESSION['id_u'])) {
     $qte_par_crypto = request_execute($pdo, "
     SELECT i.crypto, SUM(i.qte) AS total_qte
     FROM indicators i
-    WHERE i.id_u = :id_u
+    WHERE i.id_u = :id_u AND type= 'Achat'
     GROUP BY i.crypto
     ORDER BY i.crypto ASC
 ", [':id_u' => $_SESSION['id_u']]);
@@ -84,64 +84,93 @@ if (isset($_SESSION['id_u'])) {
     ORDER BY mois ASC, crypto ASC;
     ", [':id_u' =>$_SESSION['id_u']]);
 
+    // récupérer les ventes pour chaques crypto
+    $qte_vente_par_crypto = request_execute($pdo, "
+    SELECT i.crypto, SUM(i.qte) AS total_qte
+    FROM indicators i
+    WHERE i.id_u = :id_u AND type= 'Vente'
+    GROUP BY i.crypto
+    ORDER BY i.crypto ASC
+", [':id_u' => $_SESSION['id_u']]);
+
 ?>
 
 <body>
-
 <div class="container-fluid hero-header bg-light">
     <div class="container py-3">
-        <div class="row align-items-start">
+        <div class="row d-flex flex-wrap justify-content-between">
 
-            <div class="col-lg-6 col-12 mb-4">
-                <h5>Vue d'ensemble</h5>
-                
-                <?php
-                    echo '<table border="1" cellpadding="8" cellspacing="0">';
-                    echo '<thead><tr><th>Cryptomonnaie</th><th>Quantité totale</th></tr></thead>';
-                    echo '<tbody>';
-
-                    foreach ($qte_par_crypto as $crypto) {
-                        $nom = ucwords(str_replace('-', ' ', $crypto['crypto']));
-                        $qte = number_format($crypto['total_qte'], 2);
-                        echo '<tr>';
-                        echo '<td>' . htmlspecialchars($nom) . '</td>';
-                        echo '<td>' . htmlspecialchars($qte) . '</td>';
-                        echo '</tr>';
-                    }
-
-                    echo '</tbody></table>';
-                ?>
-            </div> 
-
-            <div class="col-lg-6 col-12 d-flex justify-content-center align-items-center">
-                <canvas id="myPieChart" style="width:300px; height: 300px;"></canvas>
+            <!-- Tableau Achat -->
+            <div class="col-lg-4 col-md-12 mb-4">
+                <h5>Achat</h5>
+                <table class="table table-bordered">
+                    <thead><tr><th>Cryptomonnaie</th><th>Quantité totale</th></tr></thead>
+                    <tbody>
+                        <?php
+                        foreach ($qte_par_crypto as $crypto) {
+                            $nom = ucwords(str_replace('-', ' ', $crypto['crypto']));
+                            $qte = number_format($crypto['total_qte'], 2);
+                            echo '<tr>';
+                            echo '<td>' . htmlspecialchars($nom) . '</td>';
+                            echo '<td>' . htmlspecialchars($qte) . '</td>';
+                            echo '</tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
             </div>
-            
+
+            <!-- Tableau Vente -->
+            <div class="col-lg-4 col-md-12 mb-4">
+                <h5>Vente</h5>
+                <table class="table table-bordered">
+                    <thead><tr><th>Cryptomonnaie</th><th>Quantité totale</th></tr></thead>
+                    <tbody>
+                        <?php
+                        foreach ($qte_vente_par_crypto as $crypto) {
+                            $nom = ucwords(str_replace('-', ' ', $crypto['crypto']));
+                            $qte = number_format($crypto['total_qte'], 2);
+                            echo '<tr>';
+                            echo '<td>' . htmlspecialchars($nom) . '</td>';
+                            echo '<td>' . htmlspecialchars($qte) . '</td>';
+                            echo '</tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Camembert -->
+            <div class="col-lg-4 col-md-12 d-flex justify-content-center align-items-center mb-4">
+                <canvas id="myPieChart" style="width:300px; height:300px;"></canvas>
+            </div>
         </div>
-    </div> 
 
-    <!-- Ajout du graphique en barres centré -->
-    <div class="d-flex justify-content-center py-4">
-        <canvas id="barChart" style="width:450px; height:450px;"></canvas>
+        <!-- Bar chart en dessous, sur toute la largeur -->
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <canvas id="barChart" style="width:100%; max-width:900px; height:450px;"></canvas>
+            </div>
+        </div>
+    </div>
 
+    <!-- Boutons de filtre -->
+    <div class="text-center py-4">
+        <button class="btn btn-success" onclick="filterType('Achat')">Achat</button>
+        <button class="btn btn-danger" onclick="filterType('Vente')">Vente</button>
+        <button class="btn btn-warning" onclick="filterType('Tous')">Tous</button>
     </div>
 </div>
-        <center>
-        <button class="btn btn-success" onclick="filterType('Achat')">Achat</button>
-        <button class="btn btn-alert" onclick="filterType('Vente')">Vente</button>
-        <button class="btn btn-warning" onclick="filterType('Tous')">Tous</button>
-        </center>
 
-<script> // envoi des données au script chart
+<script>
     const barChartDataRaw = <?php echo json_encode($data_par_type); ?>;
 </script>
 <script src="js/dashboard_barchart.js"></script>
 <script src="js/dashboard.js"></script>
 <script src="scripts-loader.js"></script>
-<!-- dark mode -->
 <script src="js/dark_mode.js"></script>
-
 </body>
+
 
 <?php
 
