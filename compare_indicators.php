@@ -35,9 +35,16 @@ try {
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
     );
 
-    $stmt = $pdo->prepare("SELECT * FROM indicators WHERE id_u = :id AND crypto = :crypto AND type = 'Achat' ORDER BY date DESC");
-    $stmt->execute(['id' => $id, 'crypto' => $selectedCrypto]);
-    $indicators = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("
+    SELECT 
+        id,crypto,ROUND(price, 2) AS price,date,id_u,qte,type
+    FROM indicators 
+    WHERE id_u = :id AND crypto = :crypto AND type = 'Achat' 
+    ORDER BY date DESC
+    ");
+
+$stmt->execute(['id' => $id, 'crypto' => $selectedCrypto]);
+$indicators = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Récupérer prix en temps réel
     $realtime = json_decode(file_get_contents('consume_price.php'), true);
@@ -80,10 +87,11 @@ try {
                 <thead>
                     <tr>
                         <th>Prix Enregistré</th>
+                        <th>Quantité</th>
                         <th>Date</th>
                         <th>Prix Actuel</th>
                         <th>Évolution</th>
-                        <th>Gain/perte</th>
+                        <th>Gain/Perte</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,6 +106,7 @@ try {
                         ?>
                         <tr>
                             <td><?php echo number_format($oldPrice, 2); ?> $</td>
+                            <td><?php echo number_format($indicator['qte']); ?></td>
                             <td><?php echo htmlspecialchars($indicator['date']); ?></td>
                             <td data-crypto="<?php echo $crypto; ?>">
                                 <?php echo $currentPrice !== null ? number_format($currentPrice, 2) . ' $' : 'N/A'; ?>

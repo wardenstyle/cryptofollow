@@ -20,7 +20,7 @@ if (isset($_SESSION['id_u'])) {
     INNER JOIN indicators i ON i.crypto COLLATE utf8mb4_general_ci = c.id_api COLLATE utf8mb4_general_ci
     WHERE i.id_u = :id_u
     ORDER BY c.id_api ASC
-", [':id_u' => $_SESSION['id_u']]);
+    ", [':id_u' => $_SESSION['id_u']]);
     // Redirection si pas d'indicateur
     if (empty($cryptos)) {
         header('Location: price_crypto.php');
@@ -35,7 +35,7 @@ if (isset($_SESSION['id_u'])) {
     FROM indicators i
     WHERE i.id_u = :id_u
     GROUP BY i.crypto
-", [':id_u' => $_SESSION['id_u']]);
+    ", [':id_u' => $_SESSION['id_u']]);
 
     // Récupérer les quantités pour chaque crypto
     $qte_par_crypto = request_execute($pdo, "
@@ -44,7 +44,7 @@ if (isset($_SESSION['id_u'])) {
     WHERE i.id_u = :id_u AND type= 'Achat'
     GROUP BY i.crypto
     ORDER BY i.crypto ASC
-", [':id_u' => $_SESSION['id_u']]);
+    ", [':id_u' => $_SESSION['id_u']]);
 
     // Calcul du total général
     $total_investi = 0;
@@ -91,7 +91,35 @@ if (isset($_SESSION['id_u'])) {
     WHERE i.id_u = :id_u AND type= 'Vente'
     GROUP BY i.crypto
     ORDER BY i.crypto ASC
-", [':id_u' => $_SESSION['id_u']]);
+    ", [':id_u' => $_SESSION['id_u']]);
+
+    //Data Gain/Perte
+
+    $qte_gain_perte = request_execute($pdo, "
+    SELECT
+    DATE_FORMAT(date, '%Y-%m') AS mois,
+    SUM(CASE WHEN type = 'Vente' THEN qte * price ELSE 0 END) AS gain,
+    SUM(CASE WHEN type = 'Achat' THEN qte * price ELSE 0 END) AS perte
+    FROM indicators
+    WHERE id_u = :id_u
+    GROUP BY mois
+    ORDER BY mois;
+    ", [':id_u' => $_SESSION['id_u']]);
+
+    // injection
+    $labels = [];
+    $gains = [];
+    $pertes = [];
+
+    foreach ($qte_gain_perte as $row) {
+        $labels[] = $row['mois'];
+        $gains[] = $row['gain'];
+        $pertes[] = $row['perte'];
+    }
+    
+    echo "<input type='hidden' id='line-chart-labels' value='" . json_encode($labels) . "'>";
+    echo "<input type='hidden' id='line-chart-gain' value='" . json_encode($gains) . "'>";
+    echo "<input type='hidden' id='line-chart-perte' value='" . json_encode($pertes) . "'>";
 
 ?>
 
@@ -148,10 +176,15 @@ if (isset($_SESSION['id_u'])) {
 
         <!-- Bar chart en dessous, sur toute la largeur -->
         <div class="row">
-            <div class="col-12 d-flex justify-content-center">
-                <canvas id="barChart" style="width:100%; max-width:900px; height:450px;"></canvas>
-            </div>
-        </div>
+    <!-- Line Chart à gauche -->
+    <div class="col-lg-6 d-flex justify-content-center">
+        <canvas id="lineChart" style="width:100%; max-width:500px; height:450px;"></canvas>
+    </div>
+    <!-- Bar Chart à droite -->
+    <div class="col-lg-6 d-flex justify-content-center">
+        <canvas id="barChart" style="width:100%; max-width:500px; height:450px;"></canvas>
+    </div>
+</div>
     </div>
 
     <!-- Boutons de filtre -->
@@ -166,6 +199,7 @@ if (isset($_SESSION['id_u'])) {
     const barChartDataRaw = <?php echo json_encode($data_par_type); ?>;
 </script>
 <script src="js/dashboard_barchart.js"></script>
+<script src="js/dashboard_linechart.js"></script>
 <script src="js/dashboard.js"></script>
 <script src="scripts-loader.js"></script>
 <script src="js/dark_mode.js"></script>
